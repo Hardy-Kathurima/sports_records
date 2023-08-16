@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Filament\Resources\SportResource\Pages;
+namespace App\Filament\Resources\PlayerResource\Pages;
 
-use App\Filament\Resources\SportResource;
+use App\Filament\Resources\PlayerResource;
 use Filament\Pages\Actions;
 use Filament\Resources\Pages\ListRecords;
 
-class ListSports extends ListRecords
+class ListPlayers extends ListRecords
 {
-    protected static string $resource = SportResource::class;
+    protected static string $resource = PlayerResource::class;
 
     protected function getActions(): array
     {

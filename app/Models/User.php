@@ -3,10 +3,14 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use App\Models\Player;
+use App\Models\Referee;
+use App\Models\TeamOfficial;
+// use Filament\Models\Contracts\FilamentUser;
 use Laravel\Sanctum\HasApiTokens;
+use App\Models\TournamentOfficial;
 use Spatie\Permission\Traits\HasRoles;
 use Illuminate\Notifications\Notifiable;
-// use Filament\Models\Contracts\FilamentUser;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
@@ -22,6 +26,8 @@ class User extends Authenticatable
     protected $fillable = [
         'name',
         'email',
+        'phone',
+        'registration_type',
         'password',
     ];
 
@@ -44,6 +50,25 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+
+
+    public function player()
+    {
+        return $this->hasOne(Player::class);
+    }
+    public function referee()
+    {
+        return $this->hasOne(Referee::class);
+    }
+    public function teamOfficial()
+    {
+        return $this->hasOne(TeamOfficial::class);
+    }
+    public function tournamentOfficial()
+    {
+        return $this->hasOne(TournamentOfficial::class);
+    }
 
     // public function canAccessFilament(): bool
     // {

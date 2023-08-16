@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Models\Sport;
+use App\Models\TypeOfSport;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -11,11 +11,10 @@ class PlayerPosition extends Model
     use HasFactory;
 
     protected $fillable = [
-        'name',
+        'position'
     ];
-
-    public function sport()
+    public function typeOfSport()
     {
-        return $this->belongsTo(Sport::class);
+        return $this->belongsTo(TypeOfSport::class);
     }
 }

@@ -2,32 +2,30 @@
 
 namespace App\Filament\Resources;
 
+use App\Filament\Resources\PlayerPositionResource\Pages;
+use App\Filament\Resources\PlayerPositionResource\RelationManagers;
+use App\Models\PlayerPosition;
 use Filament\Forms;
-use Filament\Tables;
-use App\Models\Sport;
 use Filament\Resources\Form;
-use Filament\Resources\Table;
 use Filament\Resources\Resource;
-use Filament\Tables\Columns\TextColumn;
-use Filament\Forms\Components\TextInput;
+use Filament\Resources\Table;
+use Filament\Tables;
 use Illuminate\Database\Eloquent\Builder;
-use App\Filament\Resources\SportResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
-use App\Filament\Resources\SportResource\RelationManagers;
 
-class SportResource extends Resource
+class PlayerPositionResource extends Resource
 {
-    protected static ?string $model = Sport::class;
+    protected static ?string $model = PlayerPosition::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-collection';
+    protected static ?string $navigationIcon = 'heroicon-o-cube-transparent';
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
-                TextInput::make('name')
-                ->minLength(2)
-                ->maxLength(255)->unique(ignoreRecord:true)
+                Forms\Components\TextInput::make('position')
+                    ->required()
+                    ->maxLength(255),
             ]);
     }
 
@@ -35,7 +33,7 @@ class SportResource extends Resource
     {
         return $table
             ->columns([
-                TextColumn::make('name'),
+                Tables\Columns\TextColumn::make('position'),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime(),
                 Tables\Columns\TextColumn::make('updated_at')
@@ -62,9 +60,9 @@ class SportResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListSports::route('/'),
-            'create' => Pages\CreateSport::route('/create'),
-            'edit' => Pages\EditSport::route('/{record}/edit'),
+            'index' => Pages\ListPlayerPositions::route('/'),
+            'create' => Pages\CreatePlayerPosition::route('/create'),
+            'edit' => Pages\EditPlayerPosition::route('/{record}/edit'),
         ];
     }
 }

@@ -6,11 +6,16 @@ use App\Models\PlayerPosition;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class Sport extends Model
+class TypeOfSport extends Model
 {
     use HasFactory;
     protected $fillable = [
         'name',
+        'player_positions',
+    ];
+
+    protected $casts = [
+        'player_positions' => 'array',
     ];
 
     public function playerPositions()

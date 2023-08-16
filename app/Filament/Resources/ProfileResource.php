@@ -25,7 +25,7 @@ class ProfileResource extends Resource
 
     protected static ?string $pluralLabel = 'Profile';
 
-    protected static ?string $navigationIcon = 'heroicon-o-user';
+    protected static ?string $navigationIcon = 'heroicon-o-user-circle';
 
     public static function form(Form $form): Form
     {
