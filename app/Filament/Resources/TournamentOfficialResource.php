@@ -2,16 +2,19 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\TournamentOfficialResource\Pages;
-use App\Filament\Resources\TournamentOfficialResource\RelationManagers;
-use App\Models\TournamentOfficial;
 use Filament\Forms;
-use Filament\Resources\Form;
-use Filament\Resources\Resource;
-use Filament\Resources\Table;
 use Filament\Tables;
+use App\Models\TypeOfSport;
+use Filament\Resources\Form;
+use Filament\Resources\Table;
+use Filament\Resources\Resource;
+use App\Models\TournamentOfficial;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\FileUpload;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use App\Filament\Resources\TournamentOfficialResource\Pages;
+use App\Filament\Resources\TournamentOfficialResource\RelationManagers;
 
 class TournamentOfficialResource extends Resource
 {
@@ -23,12 +26,10 @@ class TournamentOfficialResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('profile_picture')
-                    ->required()
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('type_of_sport')
-                    ->required()
-                    ->maxLength(255),
+                FileUpload::make('profile_picture')
+                ->image(),
+                Select::make('type_of_sport')
+                ->options(TypeOfSport::all()->pluck('name', 'id')),
                 Forms\Components\TextInput::make('member')
                     ->required()
                     ->maxLength(255),

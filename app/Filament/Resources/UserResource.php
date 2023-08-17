@@ -9,6 +9,8 @@ use Filament\Tables;
 use Filament\Resources\Form;
 use Filament\Resources\Table;
 use Filament\Resources\Resource;
+use Filament\Resources\Pages\Page;
+use Illuminate\Support\Facades\Hash;
 use Filament\Forms\Components\Select;
 use Illuminate\Database\Eloquent\Builder;
 use App\Filament\Resources\UserResource\Pages;
@@ -37,15 +39,19 @@ class UserResource extends Resource
                     ->required()
                     ->maxLength(255),
                     Select::make('registration_type')
-                    ->label('User type')
-                    ->options(Role::all()->pluck('name', 'id'))
+                    ->label('Registration type')
+                    ->options(Role::all()->pluck('name', 'name'))
                     ->searchable(),
+                    Select::make('role')
+                    ->label('Role')
+                ->multiple()
+                ->relationship('roles', 'name')->preload(),
 
                 Forms\Components\DateTimePicker::make('email_verified_at'),
                 Forms\Components\TextInput::make('password')
-                    ->password()
-                    ->required()
-                    ->maxLength(255),
+                ->password()->dehydrateStateUsing(fn ($state) => Hash::make($state))->dehydrated(fn ($state)=>filled($state))
+                ->required(fn (Page $livewire) =>($livewire instanceof CreateUser))
+                ->maxLength(255),
             ]);
     }
 

@@ -45,9 +45,9 @@ class GameResource extends Resource
                 Select::make('home_team')
                 ->label('Home team')
                 ->options($teams),
-                Forms\Components\TextInput::make('away_team')
-                    ->required()
-                    ->maxLength(255),
+                Select::make('away_team')
+                ->label('Away team')
+                ->options($teams),
                 Forms\Components\TextInput::make('home_score')
                     ->required()
                     ->maxLength(255),

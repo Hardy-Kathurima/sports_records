@@ -2,25 +2,24 @@
 
 namespace App\Policies;
 
+use App\Models\TeamOfficial;
 use App\Models\User;
 use Illuminate\Auth\Access\Response;
-use Illuminate\Support\Facades\Auth;
 
-class UserPolicy
+class TeamOfficialPolicy
 {
     /**
      * Determine whether the user can view any models.
      */
     public function viewAny(User $user): bool
     {
-        // Check if the user is logged in.
-        return true;
+        return $user->hasRole('Team official');
     }
 
     /**
      * Determine whether the user can view the model.
      */
-    public function view(User $user, User $model): bool
+    public function view(User $user, TeamOfficial $teamOfficial): bool
     {
         return true;
     }
@@ -30,38 +29,37 @@ class UserPolicy
      */
     public function create(User $user): bool
     {
-       return $user->hasRole('Admin');
+        return true;
     }
 
     /**
      * Determine whether the user can update the model.
      */
-    public function update(User $user, User $model): bool
+    public function update(User $user, TeamOfficial $teamOfficial): bool
     {
-       return $user->hasRole('Admin');
-
+        return true;
     }
 
     /**
      * Determine whether the user can delete the model.
      */
-    public function delete(User $user, User $model): bool
+    public function delete(User $user, TeamOfficial $teamOfficial): bool
     {
-        return $user->hasRole('Admin');
+        return true;
     }
 
     /**
      * Determine whether the user can restore the model.
      */
-    public function restore(User $user, User $model): bool
+    public function restore(User $user, TeamOfficial $teamOfficial): bool
     {
-        //
+        return true;
     }
 
     /**
      * Determine whether the user can permanently delete the model.
      */
-    public function forceDelete(User $user, User $model): bool
+    public function forceDelete(User $user, TeamOfficial $teamOfficial): bool
     {
         //
     }

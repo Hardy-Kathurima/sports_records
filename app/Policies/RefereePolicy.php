@@ -2,25 +2,24 @@
 
 namespace App\Policies;
 
+use App\Models\Referee;
 use App\Models\User;
 use Illuminate\Auth\Access\Response;
-use Illuminate\Support\Facades\Auth;
 
-class UserPolicy
+class RefereePolicy
 {
     /**
      * Determine whether the user can view any models.
      */
     public function viewAny(User $user): bool
     {
-        // Check if the user is logged in.
-        return true;
+        return $user->hasRole('Referee');
     }
 
     /**
      * Determine whether the user can view the model.
      */
-    public function view(User $user, User $model): bool
+    public function view(User $user, Referee $referee): bool
     {
         return true;
     }
@@ -30,30 +29,29 @@ class UserPolicy
      */
     public function create(User $user): bool
     {
-       return $user->hasRole('Admin');
+        return true;
     }
 
     /**
      * Determine whether the user can update the model.
      */
-    public function update(User $user, User $model): bool
+    public function update(User $user, Referee $referee): bool
     {
-       return $user->hasRole('Admin');
-
+        return true;
     }
 
     /**
      * Determine whether the user can delete the model.
      */
-    public function delete(User $user, User $model): bool
+    public function delete(User $user, Referee $referee): bool
     {
-        return $user->hasRole('Admin');
+        return true;
     }
 
     /**
      * Determine whether the user can restore the model.
      */
-    public function restore(User $user, User $model): bool
+    public function restore(User $user, Referee $referee): bool
     {
         //
     }
@@ -61,7 +59,7 @@ class UserPolicy
     /**
      * Determine whether the user can permanently delete the model.
      */
-    public function forceDelete(User $user, User $model): bool
+    public function forceDelete(User $user, Referee $referee): bool
     {
         //
     }

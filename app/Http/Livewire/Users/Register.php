@@ -20,6 +20,12 @@ class Register extends Component
     public $password_confirmation;
 
 
+    public function attachRole(Role $role)
+{
+    $this->roles()->attach($role);
+}
+
+
     public function submit()
     {
         $this->validate([
@@ -38,11 +44,16 @@ class Register extends Component
             'password' => bcrypt($this->password),
         ]);
 
-       
+
+
+        $user->assignRole($this->registration_type);
+
 
         auth()->login($user);
 
         $this->emit('registered');
+
+        return redirect('/admin');
     }
 
 
