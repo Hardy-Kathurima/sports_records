@@ -11,7 +11,7 @@
             </div></div>
             <div style="margin-left: 20px; justify-self:center;">
                 <div class="pl-8"><h3 class="font-bold">Name {{ Auth::user()->name }}</h3></div>
-                <div class="font-bold">Type of sport: Football</div>
+                <div class="font-bold">Type of sport: {{ Auth::user()->type_of_sport }}</div>
             </div>
         </div>
     </div>
@@ -21,10 +21,11 @@
 
             <div>
                 <div class="pl-8"><h3 class="font-bold">Email: {{ Auth::user()->email }}</h3></div>
-                <div class="font-bold">Phone: 0703642687</div>
+                <div class="font-bold">Phone: {{ Auth::user()->phone }}</div>
             </div>
         </div>
     </div>
  </div>
+
    </article>
 </x-filament::page>

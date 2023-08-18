@@ -10,6 +10,7 @@ use Filament\Resources\Form;
 use Filament\Resources\Table;
 use Filament\Resources\Resource;
 use Filament\Forms\Components\Select;
+use Filament\Tables\Columns\ImageColumn;
 use Filament\Forms\Components\FileUpload;
 use Illuminate\Database\Eloquent\Builder;
 use App\Filament\Resources\RefereeResource\Pages;
@@ -20,7 +21,9 @@ class RefereeResource extends Resource
 {
     protected static ?string $model = Referee::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-flag';
+    protected static ?string $navigationIcon = 'heroicon-o-user';
+    public static ?string $label = 'M profile';
+    protected static ?string $pluralLabel = 'My profile';
 
     public static function form(Form $form): Form
     {
@@ -29,7 +32,7 @@ class RefereeResource extends Resource
                 FileUpload::make('profile_picture')
                 ->image(),
                 Select::make('type_of_sport')
-                ->options(TypeOfSport::all()->pluck('name', 'id')),
+                ->options(TypeOfSport::all()->pluck('name', 'name')),
                 Forms\Components\TextInput::make('member')
                     ->required()
                     ->maxLength(255),
@@ -49,7 +52,8 @@ class RefereeResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('profile_picture'),
+                ImageColumn::make('profile_picture')
+                ->defaultImageUrl(url('https://placehold.co/200x200'))->circular(),
                 Tables\Columns\TextColumn::make('type_of_sport'),
                 Tables\Columns\TextColumn::make('member'),
                 Tables\Columns\TextColumn::make('age'),

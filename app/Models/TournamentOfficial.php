@@ -13,6 +13,7 @@ class TournamentOfficial extends Model
         'profile_picture',
         'type_of_sport',
         'member',
+        'user_id',
         'age',
         'height',
         'weight'

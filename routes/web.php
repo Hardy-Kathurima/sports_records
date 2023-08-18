@@ -16,4 +16,19 @@ use Illuminate\Support\Facades\Route;
 
 Route::view('/', 'welcome')->name('home');
 
+Route::get('admin/generate-certificate', function () {
+    $data = [];
+    $pdf = Pdf::loadView('pdfs.player-certificate', $data)->setPaper('a4', 'landscape');
+    return $pdf->stream('certificate.pdf');
+
+})->middleware('auth')->name('generate-certificate');
+
+
+Route::get('admin/generate-id', function () {
+    $data = [];
+    $pdf = Pdf::loadView('pdfs.sports-id', $data)->setPaper('a4', 'landscape');
+    return $pdf->stream('sports-id.pdf');
+
+})->middleware('auth')->name('generate-id');
+
 Route::get('user-registration',Register::class)->name('registerUser');

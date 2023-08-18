@@ -23,19 +23,20 @@ class PlayerResource extends Resource
     protected static ?string $model = Player::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-user';
-    public static ?string $label = 'Player profile';
+    public static ?string $label = 'M profile';
+    protected static ?string $pluralLabel = 'My profile';
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
                 FileUpload::make('profile_picture')
-                ->image(),
+                ->image()->maxSize(1024),
                 Select::make('type_of_sport')
-                ->options(TypeOfSport::all()->pluck('name', 'id')),
+                ->options(TypeOfSport::all()->pluck('name', 'name')),
 
                 Select::make('player_position')
-                ->options(PlayerPosition::all()->pluck('position', 'id')),
+                ->options(PlayerPosition::all()->pluck('position', 'position')),
                 Forms\Components\TextInput::make('age')
                     ->required()
                     ->maxLength(255),

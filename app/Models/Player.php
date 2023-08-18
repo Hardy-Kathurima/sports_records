@@ -13,6 +13,7 @@ class Player extends Model
     protected $fillable = [
         'profile_picture',
         'type_of_sport',
+        'user_id',
         'player_position',
         'age',
         'height',

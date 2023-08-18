@@ -16,10 +16,13 @@ return new class extends Migration
             $table->string('profile_picture');
             $table->string('type_of_sport');
             $table->string('member');
+            $table->unsignedBigInteger('user_id')->unique();
             $table->string('age');
             $table->string('height');
             $table->string('weight');
             $table->timestamps();
+
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 

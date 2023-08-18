@@ -112,6 +112,7 @@ class ListProfiles extends ListRecords
                         $form->fill([
                             'name' => Auth::user()->name,
                             'email' => Auth::user()->email,
+                            'phone' => Auth::user()->phone,
                         ]);
                     }
                 })
@@ -127,6 +128,7 @@ class ListProfiles extends ListRecords
                     $form->fill([
                         'name' => Auth::user()->name,
                         'email' => Auth::user()->email,
+                        'phone' => Auth::user()->phone,
                     ]);
                 })
                 ->action(function (array $data) {
@@ -150,6 +152,11 @@ class ListProfiles extends ListRecords
                         ->required()
                         ->email()
                         ->rules(['required', 'email']),
+
+                    TextInput::make('phone')
+                        ->label('Phone')
+                        ->required()
+                        ->rules(['required', 'string']),
 
                 ])
         ];

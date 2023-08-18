@@ -29,7 +29,16 @@ class PlayerPolicy
      */
     public function create(User $user): bool
     {
-        return true;
+         // Check if the record already exists in the database.
+        $existingPlayer = Player::where('user_id', $user->id)->first();
+
+        if ($existingPlayer || auth()->user()->registration_type != "Player") {
+            // The record already exists, so disable the create button.
+            return false;
+        }
+
+    // The record does not exist, so allow the user to create a new record.
+    return true;
     }
 
     /**
@@ -37,7 +46,16 @@ class PlayerPolicy
      */
     public function update(User $user, Player $player): bool
     {
-        return $user->hasRole('Admin');
+           // Check if the record already exists in the database.
+           $existingPlayer = Player::where('user_id', $user->id)->first();
+
+           if ($existingPlayer && auth()->user()->registration_type === "Player") {
+               // The record already exists, so disable the create button.
+               return true;
+           }
+
+       // The record does not exist, so allow the user to create a new record.
+       return false;
     }
 
     /**

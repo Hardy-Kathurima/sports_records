@@ -13,7 +13,7 @@ class RefereePolicy
      */
     public function viewAny(User $user): bool
     {
-        return $user->hasRole('Referee');
+        return $user->hasRole(['Admin','Referee']);
     }
 
     /**
@@ -21,7 +21,7 @@ class RefereePolicy
      */
     public function view(User $user, Referee $referee): bool
     {
-        return true;
+        return $user->id === $referee->user_id;
     }
 
     /**
@@ -29,7 +29,16 @@ class RefereePolicy
      */
     public function create(User $user): bool
     {
-        return true;
+        // Check if the record already exists in the database.
+        $existingReferee = Referee::where('user_id', $user->id)->first();
+
+        if ($existingReferee|| auth()->user()->registration_type != "Referee") {
+            // The record already exists, so disable the create button.
+            return false;
+        }
+
+    // The record does not exist, so allow the user to create a new record.
+    return true;
     }
 
     /**
@@ -37,7 +46,16 @@ class RefereePolicy
      */
     public function update(User $user, Referee $referee): bool
     {
-        return true;
+         // Check if the record already exists in the database.
+         $existingReferee = Referee::where('user_id', $user->id)->first();
+
+         if ($existingReferee && auth()->user()->registration_type === "Referee") {
+             // The record already exists, so disable the create button.
+             return true;
+         }
+
+     // The record does not exist, so allow the user to create a new record.
+     return false;
     }
 
     /**
@@ -45,7 +63,7 @@ class RefereePolicy
      */
     public function delete(User $user, Referee $referee): bool
     {
-        return true;
+        return $user->hasRole('Admin');
     }
 
     /**

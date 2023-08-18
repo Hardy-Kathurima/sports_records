@@ -14,7 +14,7 @@ class UserPolicy
     public function viewAny(User $user): bool
     {
         // Check if the user is logged in.
-        return true;
+        return $user->hasRole('Admin');
     }
 
     /**
