@@ -21,7 +21,7 @@ class TournamentPolicy
      */
     public function view(User $user, Tournament $tournament): bool
     {
-        return $user->hasRole(['Tournament official']);
+        return $user->hasRole(['Tournament official','Admin']);
     }
 
     /**
@@ -29,7 +29,7 @@ class TournamentPolicy
      */
     public function create(User $user): bool
     {
-        return $user->hasRole(['Tournament official']);
+        return $user->hasRole(['Tournament official','Admin']);
     }
 
     /**
@@ -37,7 +37,7 @@ class TournamentPolicy
      */
     public function update(User $user, Tournament $tournament): bool
     {
-        return $user->hasRole(['Tournament official']);
+        return $user->hasRole(['Tournament official','Admin']);
     }
 
     /**
@@ -45,7 +45,7 @@ class TournamentPolicy
      */
     public function delete(User $user, Tournament $tournament): bool
     {
-        return $user->hasRole(['Tournament official']);
+        return $user->hasRole(['Tournament official','Admin']);
     }
 
     /**

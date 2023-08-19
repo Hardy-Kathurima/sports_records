@@ -13,7 +13,7 @@ class RefereePolicy
      */
     public function viewAny(User $user): bool
     {
-        return $user->hasRole(['Admin','Referee']);
+        return $user->hasRole(['Referee']);
     }
 
     /**

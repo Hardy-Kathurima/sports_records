@@ -23,7 +23,7 @@ class PlayerResource extends Resource
     protected static ?string $model = Player::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-user';
-    public static ?string $label = 'M profile';
+    public static ?string $label = 'My profile';
     protected static ?string $pluralLabel = 'My profile';
 
     public static function form(Form $form): Form

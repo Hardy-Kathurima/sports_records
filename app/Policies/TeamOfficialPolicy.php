@@ -13,7 +13,7 @@ class TeamOfficialPolicy
      */
     public function viewAny(User $user): bool
     {
-        return $user->hasRole('Team official');
+        return $user->hasRole(['Team official']);
     }
 
     /**
@@ -21,7 +21,7 @@ class TeamOfficialPolicy
      */
     public function view(User $user, TeamOfficial $teamOfficial): bool
     {
-        return true;
+        return $user->id === $teamOfficial->user_id;
     }
 
     /**
@@ -29,7 +29,16 @@ class TeamOfficialPolicy
      */
     public function create(User $user): bool
     {
-        return true;
+         // Check if the record already exists in the database.
+         $existingTeamOfficial = TeamOfficial::where('user_id', $user->id)->first();
+
+         if ($existingTeamOfficial|| auth()->user()->registration_type != "Team official") {
+             // The record already exists, so disable the create button.
+             return false;
+         }
+
+     // The record does not exist, so allow the user to create a new record.
+     return true;
     }
 
     /**
@@ -37,7 +46,16 @@ class TeamOfficialPolicy
      */
     public function update(User $user, TeamOfficial $teamOfficial): bool
     {
-        return true;
+         // Check if the record already exists in the database.
+         $existingTeamOfficial = TeamOfficial::where('user_id', $user->id)->first();
+
+         if ($existingTeamOfficial && auth()->user()->registration_type === "Team official") {
+             // The record already exists, so disable the create button.
+             return true;
+         }
+
+     // The record does not exist, so allow the user to create a new record.
+     return false;
     }
 
     /**
@@ -45,7 +63,7 @@ class TeamOfficialPolicy
      */
     public function delete(User $user, TeamOfficial $teamOfficial): bool
     {
-        return true;
+        return $user->hasRole('Admin');
     }
 
     /**
@@ -53,7 +71,7 @@ class TeamOfficialPolicy
      */
     public function restore(User $user, TeamOfficial $teamOfficial): bool
     {
-        return true;
+        //
     }
 
     /**

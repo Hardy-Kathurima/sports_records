@@ -13,7 +13,7 @@ class PlayerPolicy
      */
     public function viewAny(User $user): bool
     {
-        return $user->hasRole(['Admin','Player']);
+        return $user->hasRole(['Player']);
     }
 
     /**
