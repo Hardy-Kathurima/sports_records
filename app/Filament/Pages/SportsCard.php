@@ -12,4 +12,13 @@ class SportsCard extends Page
     // protected static ?string $pluralLabel = 'Complete my profile';
 
     protected static string $view = 'filament.pages.sports-card';
+
+
+    protected static function shouldRegisterNavigation(): bool
+    {
+        if(auth()->user()->registration_type != "Admin"){
+            return true;
+        }
+        return false;
+    }
 }

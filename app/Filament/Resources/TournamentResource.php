@@ -50,10 +50,7 @@ class TournamentResource extends Resource
                     ->date(),
                 Tables\Columns\TextColumn::make('end_date')
                     ->date(),
-                Tables\Columns\TextColumn::make('created_at')
-                    ->dateTime(),
-                Tables\Columns\TextColumn::make('updated_at')
-                    ->dateTime(),
+               
             ])
             ->filters([
                 //

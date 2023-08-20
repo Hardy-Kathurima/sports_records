@@ -22,8 +22,8 @@ class TeamOfficialResource extends Resource
     protected static ?string $model = TeamOfficial::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-user';
-    public static ?string $label = 'M profile';
-    protected static ?string $pluralLabel = 'My profile';
+    public static ?string $label = 'Team official';
+
 
     public static function form(Form $form): Form
     {
@@ -59,10 +59,7 @@ class TeamOfficialResource extends Resource
                 Tables\Columns\TextColumn::make('age'),
                 Tables\Columns\TextColumn::make('height'),
                 Tables\Columns\TextColumn::make('weight'),
-                Tables\Columns\TextColumn::make('created_at')
-                    ->dateTime(),
-                Tables\Columns\TextColumn::make('updated_at')
-                    ->dateTime(),
+             
             ])
             ->filters([
                 //

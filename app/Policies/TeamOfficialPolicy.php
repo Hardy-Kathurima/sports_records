@@ -13,7 +13,7 @@ class TeamOfficialPolicy
      */
     public function viewAny(User $user): bool
     {
-        return $user->hasRole(['Team official']);
+        return $user->hasRole(['Team official','Admin']);
     }
 
     /**
@@ -29,16 +29,7 @@ class TeamOfficialPolicy
      */
     public function create(User $user): bool
     {
-         // Check if the record already exists in the database.
-         $existingTeamOfficial = TeamOfficial::where('user_id', $user->id)->first();
-
-         if ($existingTeamOfficial|| auth()->user()->registration_type != "Team official") {
-             // The record already exists, so disable the create button.
-             return false;
-         }
-
-     // The record does not exist, so allow the user to create a new record.
-     return true;
+        return $user->hasRole(['Admin']);
     }
 
     /**
@@ -46,16 +37,7 @@ class TeamOfficialPolicy
      */
     public function update(User $user, TeamOfficial $teamOfficial): bool
     {
-         // Check if the record already exists in the database.
-         $existingTeamOfficial = TeamOfficial::where('user_id', $user->id)->first();
-
-         if ($existingTeamOfficial && auth()->user()->registration_type === "Team official") {
-             // The record already exists, so disable the create button.
-             return true;
-         }
-
-     // The record does not exist, so allow the user to create a new record.
-     return false;
+        return $user->hasRole(['Admin']);
     }
 
     /**

@@ -22,8 +22,8 @@ class RefereeResource extends Resource
     protected static ?string $model = Referee::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-user';
-    public static ?string $label = 'M profile';
-    protected static ?string $pluralLabel = 'My profile';
+    public static ?string $label = 'Referee';
+
 
     public static function form(Form $form): Form
     {

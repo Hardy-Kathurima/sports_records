@@ -22,8 +22,8 @@ class TournamentOfficialResource extends Resource
     protected static ?string $model = TournamentOfficial::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-user';
-    public static ?string $label = 'M profile';
-    protected static ?string $pluralLabel = 'My profile';
+    public static ?string $label = 'Tournament official';
+
 
     public static function form(Form $form): Form
     {
@@ -54,15 +54,12 @@ class TournamentOfficialResource extends Resource
             ->columns([
                 ImageColumn::make('profile_picture')
                 ->defaultImageUrl(url('https://placehold.co/200x200'))->circular(),
+                Tables\Columns\TextColumn::make('user.name')->label('Name'),
                 Tables\Columns\TextColumn::make('type_of_sport'),
                 Tables\Columns\TextColumn::make('member'),
                 Tables\Columns\TextColumn::make('age'),
                 Tables\Columns\TextColumn::make('height'),
                 Tables\Columns\TextColumn::make('weight'),
-                Tables\Columns\TextColumn::make('created_at')
-                    ->dateTime(),
-                Tables\Columns\TextColumn::make('updated_at')
-                    ->dateTime(),
             ])
             ->filters([
                 //

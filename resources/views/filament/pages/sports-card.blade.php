@@ -118,17 +118,17 @@
             <h4 style="text-transform: uppercase; font-weight:100;">Team official name</h4>
           </div>
           <div style="margin-bottom: 0.75rem;">
-            <h2 style="text-transform: uppercase; font-weight:600;">{{ Auth::user()->tournamentOfficial->type_of_sport }}</h2>
+            <h2 style="text-transform: uppercase; font-weight:600;">{{ Auth::user()->teamOfficial->type_of_sport }}</h2>
             <h4 class="uppercase font-thin" style="font-weight:100; text-transform:uppercase;">Type of sport</h4>
           </div>
           <div >
-            <h2 style="text-transform: uppercase; font-weight:600;">{{ Auth::user()->tournamentOfficial->member }}</h2>
+            <h2 style="text-transform: uppercase; font-weight:600;">{{ Auth::user()->teamOfficial->member }}</h2>
             <h4 class="uppercase font-thin" style="font-weight:100; text-transform:uppercase;">Member</h4>
           </div>
         </div>
         <div class="card-image" style=" position:absolute; top:-100px; left:400px; ">
 
-          <img src="{{ asset('storage/'.Auth::user()->tournamentOfficial->profile_picture) }}"  alt="" style="height:300px; width:200px;">
+          <img src="{{ asset('storage/'.Auth::user()->teamOfficial->profile_picture) }}"  alt="" style="height:300px; width:200px;">
           <h6 style="font-size: 1.125rem; text-align:center; font-weight:bold; background-color:black;">{{ Auth::user()->created_at->format('Ymdis') }}</h6>
         </div>
       </div>
