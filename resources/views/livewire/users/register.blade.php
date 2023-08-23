@@ -33,7 +33,6 @@
                             <label for="registration_type" class="block text-sm  mb-2">Registration type <span class="text-red-500">*</span></label>
                             <select name="registration_type" id="registration_type" class="w-full" wire:model="registration_type">
                                 <option value="">Select option</option>
-                                <option value="Admin">Admin</option>
                                 <option value="Player">Player</option>
                                 <option value="Team official">Team Official</option>
                                 <option value="Referee">Referee</option>

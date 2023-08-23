@@ -2,16 +2,19 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\TeamResource\Pages;
-use App\Filament\Resources\TeamResource\RelationManagers;
-use App\Models\Team;
 use Filament\Forms;
-use Filament\Resources\Form;
-use Filament\Resources\Resource;
-use Filament\Resources\Table;
+use App\Models\Team;
 use Filament\Tables;
+use Filament\Resources\Form;
+use Filament\Resources\Table;
+use Filament\Resources\Resource;
+use Filament\Forms\Components\Select;
+use Filament\Tables\Columns\ImageColumn;
+use Filament\Forms\Components\FileUpload;
 use Illuminate\Database\Eloquent\Builder;
+use App\Filament\Resources\TeamResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use App\Filament\Resources\TeamResource\RelationManagers;
 
 class TeamResource extends Resource
 {
@@ -26,6 +29,27 @@ class TeamResource extends Resource
                 Forms\Components\TextInput::make('team_name')
                     ->required()
                     ->maxLength(255),
+                    FileUpload::make('team_logo')
+                    ->image()->maxSize(200)->preserveFilenames()->imageCropAspectRatio('1:1')
+                    ->imageResizeTargetWidth('100')
+                    ->imageResizeTargetHeight('100'),
+                    Select::make('team_players')
+                    ->multiple()
+                    ->options([
+                        'Ronaldo' => 'Ronaldo',
+                        'Messi' => 'Messi',
+                        'Ronny' => 'Ronny',
+                        'Dibala' => 'Dibala',
+                    ])->preload(),
+                    Select::make('team_officials')
+                    ->multiple()
+                    ->options([
+                        'Official 1' => 'Official 1',
+                        'Official 2' => 'Official 2',
+                        'Official 3' => 'Official 3',
+                        'Official 4' => 'Official 4',
+                    ])->preload(),
+
             ]);
     }
 
@@ -33,17 +57,18 @@ class TeamResource extends Resource
     {
         return $table
             ->columns([
+                ImageColumn::make('team_logo')
+                ->defaultImageUrl(url('https://placehold.co/200x200'))->circular(),
                 Tables\Columns\TextColumn::make('team_name'),
-                Tables\Columns\TextColumn::make('created_at')
-                    ->dateTime(),
-                Tables\Columns\TextColumn::make('updated_at')
-                    ->dateTime(),
+
+
             ])
             ->filters([
                 //
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
+                Tables\Actions\ViewAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\DeleteBulkAction::make(),
@@ -62,6 +87,7 @@ class TeamResource extends Resource
         return [
             'index' => Pages\ListTeams::route('/'),
             'create' => Pages\CreateTeam::route('/create'),
+            'view' => Pages\ViewTeam::route('/{record}'),
             'edit' => Pages\EditTeam::route('/{record}/edit'),
         ];
     }

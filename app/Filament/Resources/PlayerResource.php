@@ -24,16 +24,23 @@ class PlayerResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-user';
     public static ?string $label = 'Player';
-   
+
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
                 FileUpload::make('profile_picture')
-                ->image()->maxSize(1024),
+                ->image()->maxSize(200)->preserveFilenames(),
                 Select::make('type_of_sport')
                 ->options(TypeOfSport::all()->pluck('name', 'name')),
+                Select::make('player_team')
+                ->options([
+                    'Sofapaka' => 'Sofapaka',
+                    'Tusker fc' => 'Tusker fc',
+                    'Gor mahia' => 'Gor mahia',
+                    'Ulinzi' => 'Ulinzi',
+                ])->preload(),
 
                 Select::make('player_position')
                 ->options(PlayerPosition::all()->pluck('position', 'position')),
@@ -70,9 +77,10 @@ class PlayerResource extends Resource
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
+                Tables\Actions\ViewAction::make(),
             ])
             ->bulkActions([
-                Tables\Actions\DeleteBulkAction::make(),
+                // Tables\Actions\DeleteBulkAction::make(),
             ]);
     }
 
@@ -88,6 +96,7 @@ class PlayerResource extends Resource
         return [
             'index' => Pages\ListPlayers::route('/'),
             'create' => Pages\CreatePlayer::route('/create'),
+            'view' => Pages\ViewPlayer::route('/{record}'),
             'edit' => Pages\EditPlayer::route('/{record}/edit'),
         ];
     }

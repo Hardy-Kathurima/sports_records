@@ -13,6 +13,7 @@ class TeamOfficial extends Model
         'profile_picture',
         'type_of_sport',
         'member',
+        'team_official_team',
         'user_id',
         'age',
         'height',

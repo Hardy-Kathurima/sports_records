@@ -14,11 +14,12 @@ class SportsCard extends Page
     protected static string $view = 'filament.pages.sports-card';
 
 
-    protected static function shouldRegisterNavigation(): bool
+    public static function shouldRegisterNavigation(): bool
     {
-        if(auth()->user()->registration_type != "Admin"){
-            return true;
+        if(auth()->user()->hasRole('Admin')){
+            return false;
         }
-        return false;
+
+        return true;
     }
 }

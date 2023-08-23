@@ -14,6 +14,8 @@ class Player extends Model
         'profile_picture',
         'type_of_sport',
         'user_id',
+        'player_team',
+        'player_status',
         'player_position',
         'age',
         'height',

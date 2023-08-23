@@ -1,5 +1,5 @@
 const defaultTheme = require('tailwindcss/defaultTheme')
-import colors from 'tailwindcss/colors' 
+import colors from 'tailwindcss/colors'
 
 module.exports = {
     theme: {
@@ -31,6 +31,7 @@ module.exports = {
         './resources/**/*.vue',
         './resources/**/*.twig',
         './resources/**/*.blade.php',
+        './resources/views/filament/pages/my-profile.blade.php',
         './vendor/filament/**/*.blade.php',
     ],
     plugins: [

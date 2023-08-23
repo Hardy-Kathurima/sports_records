@@ -2,6 +2,8 @@
 
 namespace App\Filament\Pages;
 
+
+
 use App\Models\Player;
 use App\Models\Referee;
 use App\Models\Position;
@@ -142,18 +144,11 @@ class MyProfile extends Page
             })
             ->form([
                 FileUpload::make('profile_picture')
-                ->image(),
+                ->image()->required(),
                 Select::make('type_of_sport')
                 ->options(TypeOfSport::all()->pluck('name', 'name')),
                 TextInput::make('member')
-                    ->maxLength(255) ->disabled(function () {
-                        if(in_array(auth()->user()->registration_type, ["Referee", "Team official", "Tournament official"])){
-
-                            return false;
-
-                        }
-                        return true;
-                    }),
+                    ->maxLength(255) ->hidden(! auth()->user()->hasRole('Team official','Tournament official','Referee')),
                     Select::make('player_position')
                 ->options(PlayerPosition::all()->pluck('position', 'position')) ->disabled(function () {
                     if(in_array(auth()->user()->registration_type, ["Referee", "Team official", "Tournament official"])){
@@ -221,6 +216,7 @@ class MyProfile extends Page
                     $player->user_id = auth()->user()->id;
                     $player->player_position = $data['player_position'];
                     $player->profile_picture = $data['profile_picture'];
+                    $player->player_team = $data['player_team'];
                     $player->type_of_sport = $data['type_of_sport'];
                     $player->age = $data['age'];
                     $player->height = $data['height'];
@@ -244,31 +240,9 @@ class MyProfile extends Page
                 Select::make('type_of_sport')
                 ->options(TypeOfSport::all()->pluck('name', 'name')),
                 TextInput::make('member')
-                    ->maxLength(255) ->disabled(function () {
-                        if(in_array(auth()->user()->registration_type, ["Referee", "Team official", "Tournament official"])){
-
-                            return false;
-
-                        }
-                        return true;
-                    })->required(function () {
-                        if(in_array(auth()->user()->registration_type, ["Referee", "Team official", "Tournament official"])){
-
-                            return false;
-
-                        }
-                        return true;
-
-    }),
+                    ->maxLength(255) ->hidden(! auth()->user()->hasRole(['Team official','Tournament official','Referee'])),
                     Select::make('player_position')
-                ->options(PlayerPosition::all()->pluck('position', 'position')) ->disabled(function () {
-                    if(in_array(auth()->user()->registration_type, ["Referee", "Team official", "Tournament official"])){
-
-                        return true;
-
-                    }
-                    return false;
-                }),
+                ->options(PlayerPosition::all()->pluck('position', 'position'))->hidden(! auth()->user()->hasRole(['Player'])),
                 TextInput::make('age')
                     ->required()
                     ->maxLength(255),
