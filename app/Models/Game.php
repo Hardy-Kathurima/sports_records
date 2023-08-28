@@ -2,8 +2,9 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\TournamentOfficial;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Game extends Model
 {
@@ -11,6 +12,11 @@ class Game extends Model
     protected $guarded = [];
 
     protected $casts = [
-        'player_scored' => 'array',
+        'goal' => 'array',
     ];
+
+    public function tournamentOfficial()
+    {
+        return $this->belongsTo(TournamentOfficial::class);
+    }
 }

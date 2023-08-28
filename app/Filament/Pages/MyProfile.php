@@ -4,6 +4,7 @@ namespace App\Filament\Pages;
 
 
 
+use App\Models\Team;
 use App\Models\Player;
 use App\Models\Referee;
 use App\Models\Position;
@@ -33,6 +34,11 @@ class MyProfile extends Page
 
     public $client;
 
+    public $teams;
+
+
+
+
     public function mount(): void
     {
         $this->client = auth()->user();
@@ -41,6 +47,8 @@ class MyProfile extends Page
 
     protected function getActions(): array
     {
+
+
         return [
 
             Action::make('Edit profile')
@@ -62,6 +70,7 @@ class MyProfile extends Page
                 return false;
             })
             ->mountUsing(function (ComponentContainer $form) {
+
 
                 $teamOfficial = TeamOfficial::where('user_id', auth()->user()->id)->first();
                 $referee = Referee::where('user_id', auth()->user()->id)->first();
@@ -147,10 +156,14 @@ class MyProfile extends Page
                 ->image()->required(),
                 Select::make('type_of_sport')
                 ->options(TypeOfSport::all()->pluck('name', 'name')),
+
+                Select::make('player_team')
+                ->options(Team::all()->pluck('team_name', 'id')->toArray())->hidden(!auth()->user()->hasRole(['Player'])),
+
                 TextInput::make('member')
-                    ->maxLength(255) ->hidden(! auth()->user()->hasRole('Team official','Tournament official','Referee')),
+                    ->maxLength(255) ->hidden(! auth()->user()->hasRole(['Team official','Tournament official','Referee'])),
                     Select::make('player_position')
-                ->options(PlayerPosition::all()->pluck('position', 'position')) ->disabled(function () {
+                ->options(PlayerPosition::all()->pluck('position', 'position')) ->hidden(function () {
                     if(in_array(auth()->user()->registration_type, ["Referee", "Team official", "Tournament official"])){
 
                         return true;
@@ -174,6 +187,12 @@ class MyProfile extends Page
             ->label('Complete my profile')
             ->icon('heroicon-o-key')
             ->action(function (array $data) {
+
+                $teams = Team::all()->pluck('team_name', 'id')->toArray();
+
+                if (empty($teams)) {
+                    $teams = ['' => 'Free agent'];
+                }
 
                 if(in_array(auth()->user()->registration_type, ["Team official"])){
                     $teamOfficial = new TeamOfficial();
@@ -236,9 +255,11 @@ class MyProfile extends Page
             })
             ->form([
                 FileUpload::make('profile_picture')
-                ->image(),
+                ->image()->required(),
                 Select::make('type_of_sport')
-                ->options(TypeOfSport::all()->pluck('name', 'name')),
+                ->options(TypeOfSport::all()->pluck('name', 'name'))->required(),
+                Select::make('player_team')
+                ->options(Team::all()->pluck('team_name', 'id')->toArray())->hidden(!auth()->user()->hasRole(['Player'])),
                 TextInput::make('member')
                     ->maxLength(255) ->hidden(! auth()->user()->hasRole(['Team official','Tournament official','Referee'])),
                     Select::make('player_position')
@@ -266,6 +287,8 @@ class MyProfile extends Page
 
                 return true;
             }),
+
+            
 
 
             Action::make('change-password')

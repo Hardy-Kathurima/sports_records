@@ -9,15 +9,7 @@ class Referee extends Model
 {
     use HasFactory;
 
-    protected $fillable = [
-        'profile_picture',
-        'type_of_sport',
-        'member',
-        'user_id',
-        'age',
-        'height',
-        'weight'
-    ];
+    protected $guarded = [];
 
     public function user()
     {

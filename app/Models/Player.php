@@ -10,17 +10,8 @@ class Player extends Model
 {
     use HasFactory;
 
-    protected $fillable = [
-        'profile_picture',
-        'type_of_sport',
-        'user_id',
-        'player_team',
-        'player_status',
-        'player_position',
-        'age',
-        'height',
-        'weight'
-    ];
+    protected $guarded = [];
+    
     public function user()
     {
         return $this->belongsTo(User::class);

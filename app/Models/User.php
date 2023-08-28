@@ -3,10 +3,11 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use App\Models\User;
 use App\Models\Player;
 use App\Models\Referee;
-use App\Models\TeamOfficial;
 // use Filament\Models\Contracts\FilamentUser;
+use App\Models\TeamOfficial;
 use Laravel\Sanctum\HasApiTokens;
 use App\Models\TournamentOfficial;
 use Spatie\Permission\Traits\HasRoles;
@@ -27,6 +28,7 @@ class User extends Authenticatable
         'name',
         'email',
         'phone',
+        'creator_id',
         'registration_type',
         'password',
     ];
@@ -68,6 +70,17 @@ class User extends Authenticatable
     public function tournamentOfficial()
     {
         return $this->hasOne(TournamentOfficial::class);
+    }
+
+
+    public function creator()
+    {
+        return $this->belongsTo(User::class, 'creator_id');
+    }
+
+    public function createdUsers()
+    {
+        return $this->hasMany(User::class, 'creator_id');
     }
 
     // public function canAccessFilament(): bool

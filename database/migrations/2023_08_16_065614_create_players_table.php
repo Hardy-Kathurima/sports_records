@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('profile_picture');
             $table->string('type_of_sport');
             $table->string('player_position');
-            $table->string('player_team');
+            $table->string('player_team')->default('Free agent')->nullable();
             $table->string('player_status')->default('pending');
             $table->unsignedBigInteger('user_id')->unique();
             $table->string('age');

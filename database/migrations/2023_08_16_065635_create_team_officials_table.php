@@ -15,7 +15,6 @@ return new class extends Migration
             $table->id();
             $table->string('profile_picture');
             $table->string('type_of_sport');
-            $table->string('team_official_team');
             $table->unsignedBigInteger('user_id')->unique();
             $table->string('member');
             $table->string('age');

@@ -2,8 +2,9 @@
 
 namespace App\Policies;
 
-use App\Models\Tournament;
 use App\Models\User;
+use App\Models\Tournament;
+use App\Models\TournamentOfficial;
 use Illuminate\Auth\Access\Response;
 
 class TournamentPolicy
@@ -21,7 +22,7 @@ class TournamentPolicy
      */
     public function view(User $user, Tournament $tournament): bool
     {
-        return $user->hasRole(['Tournament official','Admin']);
+        return $user->hasRole(['Tournament official','Admin','Referee','Player','Team official']);
     }
 
     /**
@@ -29,7 +30,12 @@ class TournamentPolicy
      */
     public function create(User $user): bool
     {
-        return $user->hasRole(['Tournament official','Admin']);
+        $tournamentOfficial = TournamentOfficial::where('user_id', auth()->user()->id)->first();
+        if($tournamentOfficial){
+            return true;
+        }
+
+        return false;
     }
 
     /**
@@ -37,7 +43,12 @@ class TournamentPolicy
      */
     public function update(User $user, Tournament $tournament): bool
     {
-        return $user->hasRole(['Tournament official','Admin']);
+        $tournamentOfficial = TournamentOfficial::where('user_id', auth()->user()->id)->first();
+        if($tournamentOfficial){
+            return true;
+        }
+
+        return false;
     }
 
     /**
@@ -45,7 +56,12 @@ class TournamentPolicy
      */
     public function delete(User $user, Tournament $tournament): bool
     {
-        return $user->hasRole(['Tournament official','Admin']);
+        $tournamentOfficial = TournamentOfficial::where('user_id', auth()->user()->id)->first();
+        if($tournamentOfficial){
+            return true;
+        }
+
+        return false;
     }
 
     /**

@@ -4,6 +4,7 @@ namespace App\Policies;
 
 use App\Models\Team;
 use App\Models\User;
+use App\Models\TeamOfficial;
 use Illuminate\Auth\Access\Response;
 
 class TeamPolicy
@@ -29,7 +30,12 @@ class TeamPolicy
      */
     public function create(User $user): bool
     {
-        return $user->hasRole(['Admin','Team official','Referee','Tournament official']);
+        $teamOfficial = TeamOfficial::where('user_id', auth()->user()->id)->first();
+        if($teamOfficial){
+            return true;
+        }
+
+        return false;
     }
 
     /**
@@ -37,7 +43,12 @@ class TeamPolicy
      */
     public function update(User $user, Team $team): bool
     {
-        return $user->hasRole('Admin');
+         $teamOfficial = TeamOfficial::where('user_id', auth()->user()->id)->first();
+        if($teamOfficial){
+            return true;
+        }
+
+        return false;
     }
 
     /**
@@ -45,7 +56,7 @@ class TeamPolicy
      */
     public function delete(User $user, Team $team): bool
     {
-        return true;
+        return $user->hasRole(['Team official','Admin']);
     }
 
     /**

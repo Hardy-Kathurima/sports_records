@@ -9,16 +9,7 @@ class TeamOfficial extends Model
 {
     use HasFactory;
 
-    protected $fillable = [
-        'profile_picture',
-        'type_of_sport',
-        'member',
-        'team_official_team',
-        'user_id',
-        'age',
-        'height',
-        'weight'
-    ];
+    protected $guarded = [];
 
     public function user()
     {

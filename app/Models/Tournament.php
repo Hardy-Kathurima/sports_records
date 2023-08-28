@@ -9,10 +9,17 @@ class Tournament extends Model
 {
     use HasFactory;
 
-    protected $fillable = [
-        'tournament_name',
-        'start_date',
-        'end_date',
-        'status'
+    protected $guarded = [];
+
+    protected $casts = [
+        'tournament_teams' => 'array',
+        'tournament_officials' => 'array',
+        'tournament_referees' => 'array',
     ];
+
+    public function tournamentOfficial()
+    {
+        return $this->belongsTo(TournamentOfficial::class);
+    }
+
 }

@@ -10,9 +10,7 @@ class PlayerPosition extends Model
 {
     use HasFactory;
 
-    protected $fillable = [
-        'position'
-    ];
+    protected $guarded = [];
     public function typeOfSport()
     {
         return $this->belongsTo(TypeOfSport::class);

@@ -14,4 +14,11 @@ class CreateGame extends CreateRecord
     {
         return $this->getResource()::getUrl('index');
     }
+
+    protected function mutateFormDataBeforeCreate(array $data): array
+    {
+        $data['tournament_official_id'] = auth()->user()->id;
+
+        return $data;
+    }
 }

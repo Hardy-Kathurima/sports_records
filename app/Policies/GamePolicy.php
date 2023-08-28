@@ -13,7 +13,7 @@ class GamePolicy
      */
     public function viewAny(User $user): bool
     {
-        return true;
+        return $user->hasRole(['Admin','Team official','Tournament official','Team admin','Player']);
     }
 
     /**
@@ -21,7 +21,7 @@ class GamePolicy
      */
     public function view(User $user, Game $game): bool
     {
-        return $user->hasRole('Admin');
+       return $user->hasRole(['Admin','Team official','Tournament official']);
     }
 
     /**
@@ -29,7 +29,7 @@ class GamePolicy
      */
     public function create(User $user): bool
     {
-        return $user->hasRole(['Admin','Team official']);
+        return $user->hasRole(['Admin','Tournament official']);
     }
 
     /**
@@ -37,7 +37,7 @@ class GamePolicy
      */
     public function update(User $user, Game $game): bool
     {
-        return $user->hasRole(['Admin','Team official']);
+        return $user->hasRole(['Admin','Tournament official']);
     }
 
     /**
@@ -45,7 +45,7 @@ class GamePolicy
      */
     public function delete(User $user, Game $game): bool
     {
-        return $user->hasRole(['Admin','Team official']);
+        return $user->hasRole(['Admin','Tournament official']);
     }
 
     /**

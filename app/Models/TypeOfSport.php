@@ -9,10 +9,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class TypeOfSport extends Model
 {
     use HasFactory;
-    protected $fillable = [
-        'name',
-        'player_positions',
-    ];
+    protected $guarded = [];
 
     protected $casts = [
         'player_positions' => 'array',

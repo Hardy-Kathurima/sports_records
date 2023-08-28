@@ -16,10 +16,23 @@ return new class extends Migration
             $table->string('tournament_name');
             $table->string('home_team');
             $table->string('away_team');
+            $table->unsignedBigInteger('tournament_official_id');
+            $table->string('game_referee');
+            $table->string('game_location');
             $table->string('home_score');
             $table->string('away_score');
-            $table->json('player_scored');
+            $table->json('goal')->default(0)->nullable();
+            $table->text('comment')->nullable();
+            $table->boolean('verified_by_team1')->default(false)->nullable();
+            $table->boolean('verified_by_team2')->default(false)->nullable();
+            $table->boolean('verified')->default(false)->nullable();
             $table->timestamps();
+
+
+            $table->foreign('tournament_official_id')
+            ->references('user_id')
+            ->on('tournament_officials')
+            ->onDelete('cascade');
         });
     }
 

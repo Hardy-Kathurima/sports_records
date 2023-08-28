@@ -2,19 +2,28 @@
 
 namespace App\Filament\Resources;
 
+use Closure;
 use Filament\Forms;
 use App\Models\Role;
+use App\Models\Team;
 use App\Models\User;
 use Filament\Tables;
+use App\Models\TypeOfSport;
+use App\Models\TeamOfficial;
 use Filament\Resources\Form;
 use Filament\Resources\Table;
+use App\Models\PlayerPosition;
 use Filament\Resources\Resource;
 use Filament\Resources\Pages\Page;
 use Illuminate\Support\Facades\Hash;
 use Filament\Forms\Components\Select;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\FileUpload;
 use Illuminate\Database\Eloquent\Builder;
+use Filament\Forms\Components\Actions\Action;
 use App\Filament\Resources\UserResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Awcodes\DropInAction\Forms\Components\DropInAction;
 use App\Filament\Resources\UserResource\RelationManagers;
 
 class UserResource extends Resource
@@ -41,17 +50,22 @@ class UserResource extends Resource
                     Select::make('registration_type')
                     ->label('Registration type')
                     ->options(Role::all()->pluck('name', 'name'))
-                    ->searchable(),
+                    ->searchable()->disabled(auth()->user()->hasRole(['Team official']))->default('Team admin')->preload(),
                     Select::make('role')
                     ->label('Role')
-                ->multiple()
-                ->relationship('roles', 'name')->preload(),
+                    ->options(Role::all()->pluck('name', 'name'))
+                    ->disabled(auth()->user()->hasRole(['Team official']))
+                    ->default('Team admin')
+                    ->preload(),
 
-                Forms\Components\DateTimePicker::make('email_verified_at'),
                 Forms\Components\TextInput::make('password')
                 ->password()->dehydrateStateUsing(fn ($state) => Hash::make($state))->dehydrated(fn ($state)=>filled($state))
+                ->same('password_confirmation')
                 ->required(fn (Page $livewire) =>($livewire instanceof CreateUser))
                 ->maxLength(255),
+
+                TextInput::make('password_confirmation')
+                ->password()
             ]);
     }
 
@@ -63,10 +77,6 @@ class UserResource extends Resource
                 Tables\Columns\TextColumn::make('email'),
                 Tables\Columns\TextColumn::make('phone'),
                 Tables\Columns\TextColumn::make('registration_type'),
-                Tables\Columns\TextColumn::make('created_at')
-                    ->dateTime(),
-                Tables\Columns\TextColumn::make('updated_at')
-                    ->dateTime(),
             ])
             ->filters([
                 //

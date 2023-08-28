@@ -14,10 +14,5 @@ class Team extends Model
         'team_officials' => 'array',
     ];
 
-    protected $fillable = [
-        'team_name',
-        'team_logo',
-        'team_players',
-        'team_officials'
-    ];
+    protected $guarded = [];
 }

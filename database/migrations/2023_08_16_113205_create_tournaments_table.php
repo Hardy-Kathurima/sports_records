@@ -16,11 +16,12 @@ return new class extends Migration
             $table->string('tournament_name');
             $table->json('tournament_teams');
             $table->json('tournament_referees');
-            $table->json('tournament_officials');
+            $table->integer('tournament_creator')->nullable();
             $table->date('start_date');
             $table->date('end_date');
             $table->string('status');
             $table->timestamps();
+
         });
     }
 
