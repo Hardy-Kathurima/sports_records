@@ -10,6 +10,7 @@ use App\Models\Referee;
 use App\Models\Position;
 use Filament\Pages\Page;
 use Actions\CreateAction;
+use App\Models\TeamAdmin;
 use App\Models\TypeOfSport;
 use App\Models\TeamOfficial;
 use App\Models\PlayerPosition;
@@ -60,10 +61,11 @@ class MyProfile extends Page
             ->icon('heroicon-o-pencil') ->authorize(function () {
 
                 $existingOfficial = TeamOfficial::where('user_id', auth()->user()->id)->first();
+                $existingAdmin = TeamAdmin::where('user_id', auth()->user()->id)->first();
                 $referee = Referee::where('user_id', auth()->user()->id)->first();
                 $player = Player::where('user_id', auth()->user()->id)->first();
                 $tournament = TournamentOfficial::where('user_id', auth()->user()->id)->first();
-                if($existingOfficial || $referee || $player || $tournament){
+                if($existingOfficial || $referee || $player || $tournament || $existingAdmin){
                     return true;
                 }
 
@@ -73,6 +75,7 @@ class MyProfile extends Page
 
 
                 $teamOfficial = TeamOfficial::where('user_id', auth()->user()->id)->first();
+                $teamAdmin = TeamAdmin::where('user_id', auth()->user()->id)->first();
                 $referee = Referee::where('user_id', auth()->user()->id)->first();
                 $player = Player::where('user_id', auth()->user()->id)->first();
                 $tournament = TournamentOfficial::where('user_id', auth()->user()->id)->first();
@@ -111,6 +114,17 @@ class MyProfile extends Page
 
                 ]);
               }
+              if(auth()->user() && $teamAdmin){
+                $form->fill([
+                    'profile_picture' => $teamAdmin->profile_picture,
+                    'type_of_sport' => $teamAdmin->type_of_sport,
+                    'member' => $teamAdmin->member,
+                    'age' => $teamAdmin->age,
+                    'height' => $teamAdmin->height,
+                    'weight' => $teamAdmin->weight,
+
+                ]);
+              }
               if(auth()->user() && $tournament){
                 $form->fill([
                     'profile_picture' => $tournament->profile_picture,
@@ -126,6 +140,7 @@ class MyProfile extends Page
             ->action(function (array $data) {
 
                 $teamOfficial = TeamOfficial::where('user_id', auth()->user()->id)->first();
+                $teamAdmin = TeamAdmin::where('user_id', auth()->user()->id)->first();
                 $referee = Referee::where('user_id', auth()->user()->id)->first();
                 $player = Player::where('user_id', auth()->user()->id)->first();
                 $tournament = TournamentOfficial::where('user_id', auth()->user()->id)->first();
@@ -141,6 +156,10 @@ class MyProfile extends Page
                   }
                 if(auth()->user() && $teamOfficial){
                     $teamOfficial->update($data);
+                  }
+
+                if(auth()->user() && $teamAdmin){
+                    $teamAdmin->update($data);
                   }
 
 
@@ -206,6 +225,19 @@ class MyProfile extends Page
                     $teamOfficial->save();
                 }
 
+
+                if(in_array(auth()->user()->registration_type, ["Team admin"])){
+                    $teamAdmin = new TeamAdmin();
+                    $teamAdmin->user_id = auth()->user()->id;
+                    $teamAdmin->profile_picture = $data['profile_picture'];
+                    $teamAdmin->type_of_sport = $data['type_of_sport'];
+                    $teamAdmin->member = $data['member'];
+                    $teamAdmin->age = $data['age'];
+                    $teamAdmin->height = $data['height'];
+                    $teamAdmin->weight = $data['weight'];
+                    $teamAdmin->save();
+                }
+
                 if(in_array(auth()->user()->registration_type, ["Referee"])){
                     $referee = new Referee();
                     $referee->user_id = auth()->user()->id;
@@ -261,7 +293,7 @@ class MyProfile extends Page
                 Select::make('player_team')
                 ->options(Team::all()->pluck('team_name', 'id')->toArray())->hidden(!auth()->user()->hasRole(['Player'])),
                 TextInput::make('member')
-                    ->maxLength(255) ->hidden(! auth()->user()->hasRole(['Team official','Tournament official','Referee'])),
+                    ->maxLength(255) ->hidden(! auth()->user()->hasRole(['Team official','Tournament official','Referee','Team admin'])),
                     Select::make('player_position')
                 ->options(PlayerPosition::all()->pluck('position', 'position'))->hidden(! auth()->user()->hasRole(['Player'])),
                 TextInput::make('age')
@@ -278,17 +310,18 @@ class MyProfile extends Page
             ->icon('heroicon-o-pencil') ->authorize(function () {
 
                 $existingOfficial = TeamOfficial::where('user_id', auth()->user()->id)->first();
+                $existingAdmin = TeamAdmin::where('user_id', auth()->user()->id)->first();
                 $referee = Referee::where('user_id', auth()->user()->id)->first();
                 $player = Player::where('user_id', auth()->user()->id)->first();
                 $tournament = TournamentOfficial::where('user_id', auth()->user()->id)->first();
-                if($existingOfficial || $referee || $player || $tournament){
+                if($existingOfficial || $referee || $player || $tournament || $existingAdmin){
                     return false;
                 }
 
                 return true;
             }),
 
-            
+
 
 
             Action::make('change-password')

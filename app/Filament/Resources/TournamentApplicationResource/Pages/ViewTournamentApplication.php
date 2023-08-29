@@ -1,32 +1,27 @@
 <?php
 
-namespace App\Filament\Resources\TournamentResource\Pages;
+namespace App\Filament\Resources\TournamentApplicationResource\Pages;
 
 use Filament\Pages\Actions;
 use Filament\Pages\Actions\Action;
-use App\Models\TournamentApplication;
-use Filament\Forms\Components\Textarea;
-use Filament\Notifications\Notification;
 use Filament\Resources\Pages\ViewRecord;
-use App\Filament\Resources\TournamentResource;
+use App\Filament\Resources\TournamentApplicationResource;
 
-class ViewTournament extends ViewRecord
+class ViewTournamentApplication extends ViewRecord
 {
-    protected static string $resource = TournamentResource::class;
-
-    public $client;
-
-
+    protected static string $resource = TournamentApplicationResource::class;
 
     protected function getActions(): array
     {
 
       return [
 
-        Action::make('Accept')
-        ->label('Apply for the tournament')
+        Action::make('Verify application')
+        ->label('Verify applications')
         ->color('success')
         ->icon('heroicon-o-book-open') ->action(function (array $data) {
+
+            // dd($data);
 
 
             if(in_array(auth()->user()->registration_type, ["Team official","Referee"])){
@@ -36,8 +31,8 @@ class ViewTournament extends ViewRecord
                 $application->save();
             }
 
-            Notification::make('Tournament application')
-            ->body('You have successfully applied for the tournament')
+            Notification::make('Modify application')
+            ->body('You have successfully updated application')
             ->success()
             ->icon('heroicon-o-phone')
             ->title('Application successfull')
@@ -53,6 +48,3 @@ class ViewTournament extends ViewRecord
 
     }
 }
-
-
-

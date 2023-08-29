@@ -2,12 +2,10 @@
 
 namespace App\Policies;
 
-use App\Models\Team;
 use App\Models\User;
 use App\Models\TeamOfficial;
-use Illuminate\Auth\Access\Response;
 
-class TeamPolicy
+class TournamentApplicationPolicy
 {
     /**
      * Determine whether the user can view any models.
@@ -74,4 +72,5 @@ class TeamPolicy
     {
         //
     }
+
 }

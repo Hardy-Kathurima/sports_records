@@ -16,6 +16,8 @@ class CreateTournament extends CreateRecord
 {
     protected static string $resource = TournamentResource::class;
 
+    public $FormData;
+
     protected function getRedirectUrl(): string
     {
         return $this->getResource()::getUrl('index');
@@ -26,32 +28,39 @@ class CreateTournament extends CreateRecord
         $data['tournament_creator'] = auth()->user()->id;
 
 
-       $tournamentReferees = $data['tournament_referees'];
-       $tournament_teams = $data['tournament_teams'];
-
-       $getId = Team::whereIn('team_name',$tournament_teams)->get()->pluck('team_official_id');
-
-
-       $users = User::whereIn('id',$getId)->get();
-
-
-
-
-       Notification::make()
-       ->success()
-       ->title('Tournament Invitation')
-       ->body('You have been invited for a tournament')
-       ->actions([
-           Action::make('Accept invitation')
-
-           ->url(TournamentResource::getUrl('view',Tournament::where('tournament_creator',$data['tournament_creator'])->get()->first())),
-       ])
-       ->sendToDatabase($users);
-
-
-
-
+       $this->FormData = $data;
 
         return $data;
+    }
+
+    protected function afterCreate(): void
+    {
+
+        // $tournament_teams = $this->FormData['tournament_teams'];
+
+        // $getId = Team::whereIn('team_name',$tournament_teams)->get()->pluck('team_official_id');
+
+
+        $tournament_id = Tournament::where('tournament_name', $this->FormData['tournament_name'])->get()->first()->id;
+
+        // $users = User::whereIn('id',$getId)->get();
+
+        $users = User::whereIn('registration_type', ['Team official', 'Referee'])->get();
+
+
+
+        Notification::make()
+        ->success()
+        ->title('Tournament Invitation')
+        ->body('You have been invited for a tournament')
+        ->actions([
+            Action::make('View tournament')
+
+            ->url(TournamentResource::getUrl('view',$tournament_id)),
+        ])
+        ->sendToDatabase($users);
+
+
+
     }
 }

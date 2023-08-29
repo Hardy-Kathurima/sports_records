@@ -21,7 +21,7 @@ return new class extends Migration
             $table->string('game_location');
             $table->string('home_score');
             $table->string('away_score');
-            $table->json('goal')->default(0)->nullable();
+            $table->json('goal')->nullable();
             $table->text('comment')->nullable();
             $table->boolean('verified_by_team1')->default(false)->nullable();
             $table->boolean('verified_by_team2')->default(false)->nullable();

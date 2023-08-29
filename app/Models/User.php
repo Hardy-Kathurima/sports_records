@@ -7,9 +7,11 @@ use App\Models\User;
 use App\Models\Player;
 use App\Models\Referee;
 // use Filament\Models\Contracts\FilamentUser;
+use App\Models\TeamAdmin;
 use App\Models\TeamOfficial;
 use Laravel\Sanctum\HasApiTokens;
 use App\Models\TournamentOfficial;
+use App\Models\TournamentApplication;
 use Spatie\Permission\Traits\HasRoles;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -72,6 +74,16 @@ class User extends Authenticatable
         return $this->hasOne(TournamentOfficial::class);
     }
 
+    public function teamAdmin()
+    {
+        return $this->hasOne(TeamAdmin::class);
+    }
+
+    public function tournamentApplication()
+    {
+        return $this->hasOne(TournamentApplication::class);
+    }
+
 
     public function creator()
     {
@@ -83,9 +95,9 @@ class User extends Authenticatable
         return $this->hasMany(User::class, 'creator_id');
     }
 
-    // public function canAccessFilament(): bool
-    // {
-    //     // return $this->hasRole('Admin');
-    //     return true;
-    // }
+    public function canAccessFilament(): bool
+    {
+        // return $this->hasRole('Admin');
+        return true;
+    }
 }

@@ -25,11 +25,14 @@ use Filament\Forms\Components\FileUpload;
 use Illuminate\Database\Eloquent\Builder;
 use Filament\Notifications\Actions\Action;
 use App\Filament\Resources\TeamResource\Pages;
+use App\Notifications\UserCreatedNotification;
+use App\Notifications\TeamAdminCreatedNotification;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Awcodes\DropInAction\Forms\Components\DropInAction;
 use App\Filament\Resources\TeamResource\RelationManagers;
 use App\Filament\Resources\UserResource\Pages\CreateUser;
 use Filament\Forms\Components\Actions\Action as FormAction;
+use Illuminate\Support\Facades\Notification as SystemNotification;
 
 class TeamResource extends Resource
 {
@@ -78,26 +81,32 @@ class TeamResource extends Resource
                                     'phone' => $data['phone'],
                                     'registration_type' => $data['registration_type'],
                                     'creator_id'=> auth()->user()->id,
-                                    'password' => $data['password'],
+                                    'password' => Hash::make('password'),
                                 ]);
 
-                                $recipient = User::where('email','=',$data['email'])->get();
+
+                                $client_content= [
+                                    'greeting'=>"Hello",
+                                    'body'=>"You have been added to a team, please click the buttton below to complete your profile",
+                                    'player_email'=>"Email: ".$data['email'],
+                                    'player_password'=> 'Password: password',
+                                    ];
+
+
                                 $recipient2 = User::where('email', '=', $data['email'])->first();
 
                                 $recipient2->assignRole('Player');
 
 
+                                SystemNotification::route('mail', $data['email'])->notify(new UserCreatedNotification($client_content));
+                                session()->flash('emailSent', 'Message sent successfully');
 
-                                Notification::make()
-                                ->success()
-                                ->title('Assigned team')
-                                ->body('You have been added as a player. Please complete your profile')
-                                ->actions([
-                                    Action::make('Complete my profile')
 
-                                        ->url('/admin/my-profile'),
-                                ])
-                                ->sendToDatabase($recipient);
+
+
+
+
+
 
 
                                 Notification::make('Team player Added')
@@ -126,14 +135,14 @@ class TeamResource extends Resource
                                     ->label('Registration type')
                                     ->options(Role::all()->pluck('name', 'name'))
                                     ->searchable()->disabled(auth()->user()->hasRole(['Team official']))->default('Player')->preload(),
-                                    Forms\Components\TextInput::make('password')
-                                    ->password()->dehydrateStateUsing(fn ($state) => Hash::make($state))->dehydrated(fn ($state)=>filled($state))
-                                    ->same('password_confirmation')
-                                    ->required(fn (Page $livewire) =>($livewire instanceof CreateUser))
-                                    ->maxLength(255),
+                                    // Forms\Components\TextInput::make('password')
+                                    // ->password()->dehydrateStateUsing(fn ($state) => Hash::make($state))->dehydrated(fn ($state)=>filled($state))
+                                    // ->same('password_confirmation')
+                                    // ->required(fn (Page $livewire) =>($livewire instanceof CreateUser))
+                                    // ->maxLength(255),
 
-                                    TextInput::make('password_confirmation')
-                                    ->password()
+                                    // TextInput::make('password_confirmation')
+                                    // ->password()
 
                             ]);
                     }),
@@ -145,7 +154,7 @@ class TeamResource extends Resource
                         $admin = User::where('registration_type', '=', 'Team admin')
                         ->where('creator_id', '=', auth()->user()->id)->get();
 
-                        if($admin->count() < 2){
+                        if($admin->count() < 4){
                             return false;
                         }
                         return true;
@@ -164,7 +173,7 @@ class TeamResource extends Resource
                                     'phone' => $data['phone'],
                                     'registration_type' => $data['registration_type'],
                                     'creator_id'=> auth()->user()->id,
-                                    'password' => $data['password'],
+                                    'password' => Hash::make('password'),
                                 ]);
 
                                 $recipient = User::where('email','=',$data['email'])->get();
@@ -173,6 +182,18 @@ class TeamResource extends Resource
                                 $recipient2 = User::where('email', '=', $data['email'])->first();
 
                                 $recipient2->assignRole('Team admin');
+
+
+                                $client_content= [
+                                    'greeting'=>"Hello",
+                                    'body'=>"You have been added to a team, please click the buttton below to complete your profile",
+                                    'admin_email'=>"Email: ".$data['email'],
+                                    'admin_password'=> 'Password: password',
+                                    ];
+
+
+                                SystemNotification::route('mail', $data['email'])->notify(new TeamAdminCreatedNotification($client_content));
+                                session()->flash('emailSent', 'Message sent successfully');
 
 
 
@@ -214,14 +235,14 @@ class TeamResource extends Resource
                                     ->label('Registration type')
                                     ->options(Role::all()->pluck('name', 'name'))
                                     ->searchable()->disabled(auth()->user()->hasRole(['Team official']))->default('Team admin')->preload(),
-                                    Forms\Components\TextInput::make('password')
-                                    ->password()->dehydrateStateUsing(fn ($state) => Hash::make($state))->dehydrated(fn ($state)=>filled($state))
-                                    ->same('password_confirmation')
-                                    ->required(fn (Page $livewire) =>($livewire instanceof CreateUser))
-                                    ->maxLength(255),
+                                    // Forms\Components\TextInput::make('password')
+                                    // ->password()->dehydrateStateUsing(fn ($state) => Hash::make($state))->dehydrated(fn ($state)=>filled($state))
+                                    // ->same('password_confirmation')
+                                    // ->required(fn (Page $livewire) =>($livewire instanceof CreateUser))
+                                    // ->maxLength(255),
 
-                                    TextInput::make('password_confirmation')
-                                    ->password()
+                                    // TextInput::make('password_confirmation')
+                                    // ->password()
 
                             ]);
                     }),

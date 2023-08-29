@@ -39,15 +39,15 @@ class TournamentResource extends Resource
                     'suspended' => 'suspended',
                     'completed' => 'completed',
                 ]),
-                Select::make('tournament_teams')
-                ->multiple(function (){
-                    if(Team::all()->count() > 1){
-                        return true;
-                    }
-                    return false;
-                })
-                ->required()
-                ->options(Team::all()->pluck('team_name','team_name'))->preload(),
+                // Select::make('tournament_teams')
+                // ->multiple(function (){
+                //     if(Team::all()->count() > 1){
+                //         return true;
+                //     }
+                //     return false;
+                // })
+                // ->required()
+                // ->options(Team::all()->pluck('team_name','team_name'))->preload(),
                 // Select::make('tournament_officials')
                 // ->multiple( function (){
                 //     if(User::Where('registration_type','Team official')->count() > 1){
@@ -56,14 +56,18 @@ class TournamentResource extends Resource
                 //     return false;
                 // })
                 // ->options(User::Where('registration_type','Team official')->pluck('name','name'))->preload(),
-                Select::make('tournament_referees')
-                ->multiple( function (){
-                    if(User::Where('registration_type','Referee')->count() > 1){
-                        return true;
-                    }
-                    return false;
-                })
-                ->options(User::Where('registration_type','Referee')->pluck('name','name'))->preload(),
+                // Select::make('tournament_referees')
+                // ->multiple( function (){
+                //     if(User::Where('registration_type','Referee')->count() > 1){
+                //         return true;
+                //     }
+                //     return false;
+                // })
+                // ->options(User::Where('registration_type','Referee')->pluck('name','name'))->preload(),
+                Forms\Components\DatePicker::make('start_application_date')
+                    ->required(),
+                Forms\Components\DatePicker::make('application_deadline_date')
+                    ->required(),
                 Forms\Components\DatePicker::make('start_date')
                     ->required(),
                 Forms\Components\DatePicker::make('end_date')
