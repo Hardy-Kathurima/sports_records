@@ -13,6 +13,10 @@ class SportsCard extends Page
 
     protected static string $view = 'filament.pages.sports-card';
 
+    protected static ?string $navigationGroup = 'Manage my profile';
+    
+    protected static ?int $navigationSort = 1;
+
 
     public static function shouldRegisterNavigation(): bool
     {

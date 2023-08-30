@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources;
 
+use Carbon\Carbon;
 use Filament\Forms;
 use App\Models\Team;
 use App\Models\User;
@@ -64,13 +65,29 @@ class TournamentResource extends Resource
                 //     return false;
                 // })
                 // ->options(User::Where('registration_type','Referee')->pluck('name','name'))->preload(),
-                Forms\Components\DatePicker::make('start_application_date')
+                Forms\Components\DatePicker::make('start_application_date')->minDate(now())->reactive()
                     ->required(),
-                Forms\Components\DatePicker::make('application_deadline_date')
+                Forms\Components\DatePicker::make('application_deadline_date')->minDate(function(callable $get){
+
+                    if($get('start_application_date')){
+                        return Carbon::now()->addDays(30);
+                    }
+
+                    return now();
+
+                })
                     ->required(),
-                Forms\Components\DatePicker::make('start_date')
+                Forms\Components\DatePicker::make('start_date')->minDate(now())->reactive()
                     ->required(),
-                Forms\Components\DatePicker::make('end_date')
+                Forms\Components\DatePicker::make('end_date')->minDate(function(callable $get){
+
+                    if($get('start_date')){
+                        return Carbon::now()->addDays(30);
+                    }
+
+                    return now();
+
+                })
                     ->required(),
             ]);
     }

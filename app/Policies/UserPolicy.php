@@ -14,7 +14,7 @@ class UserPolicy
     public function viewAny(User $user): bool
     {
         // Check if the user is logged in.
-        return $user->hasRole(['Admin','Team official']);
+        return $user->hasRole(['Admin']);
     }
 
     /**
@@ -30,7 +30,7 @@ class UserPolicy
      */
     public function create(User $user): bool
     {
-       return $user->hasRole(['Admin','Team official']);
+       return $user->hasRole(['Admin']);
     }
 
     /**

@@ -12,7 +12,7 @@ class TeamAdminPolicy
      */
     public function viewAny(User $user): bool
     {
-        return $user->hasRole(['Referee','Team official','Tournament official','Admin','Player','Team admin']);
+        return $user->hasRole(['Team official','Admin','Team admin']);
     }
 
     /**

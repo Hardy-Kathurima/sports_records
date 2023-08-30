@@ -19,6 +19,14 @@
 
    @endif
 
+   @if (auth()->user()->hasRole('Referee') &&  !auth()->user()->referee)
+
+   <div class="bg-white" style="padding: 20px;max-width:500px; color:red; border:2px solid black;">
+    <p>Please complete your profile by clicking the above button and filling in the form details in order to manage Teams.</p>
+   </div>
+
+    @endif
+
 
    @if (auth()->user()->hasRole('Team official') &&  !auth()->user()->teamOfficial)
 
