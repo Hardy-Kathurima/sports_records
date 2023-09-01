@@ -1,44 +1,125 @@
 <x-filament::page>
 
+<style>
+ .card-content {
+    max-width: 600px;
+    padding: 30px;
+    color: white;
+    border-radius: 10px;
+    margin: 20px auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+.info{
+  margin-bottom: 10px;
+}
+  .logo-container {
+    display: flex;
+    align-items: start;
+  }
+
+  .logo-img {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    padding-right: 10px;
+    background-color: transparent;
+    display: flex;
+    justify-content:start;
+    align-items: center;
+    /* margin-right: 10px; */
+  }
+
+  .text-container {
+    text-align: left;
+  }
+
+  .title {
+    text-transform: uppercase;
+    font-weight: 800;
+    font-style: italic;
+    font-size: 0.8rem;
+    margin-top: -5px;
+  }
+
+  .subtitle {
+    font-size: 0.8rem;
+    font-style: italic;
+  }
+
+  .info-container {
+    /* flex-grow: 1; */
+    text-align: left;
+    padding-right: 10px;
+  }
+
+  .info-title {
+    text-transform: uppercase;
+    font-weight: bold;
+    margin-bottom: 5px;
+    font-size: 0.5rem;
+  }
+
+  .info-subtitle {
+    text-transform: uppercase;
+    font-weight: 100;
+    font-size: 0.6rem;
+  }
+
+  .card-image {
+    position: relative;
+  }
+
+  .player-image {
+    height: auto;
+    max-width: 100%;
+    border-radius: 10px;
+    margin-top: -10px;
+  }
+
+  .timestamp {
+    font-size: 0.9rem;
+    text-align: center;
+    font-weight: bold;
+    background-color: black;
+    padding: 3px 0;
+    border-radius: 6px;
+    margin-top: 5px;
+  }
+</style>
+
 
 
 @if (auth()->user()->registration_type === "Player" && auth()->user()->player)
-<div class="card-content" style="position: relative margin-top:20px; min-height:400px;    max-width: 700px;
-        background-image:url(/images/id-bg.jpg);
-        padding: 10px 30px;
-        color:white;
-        background-size:cover;
-        border-radius: 6px;">
-    <div style=" margin-bottom:40px; padding-top:60px;">
-        <div  style="color: white">
-            <img src="{{ asset('images/layer.png') }}" class=" h-12 w-12 " style="width: 48px; height:48px;" alt="">
-        </div>
-        <div style="position:absolute; left:100px; top:-5px;">
-         <h3  style=" text-transform:uppercase; font-weight:800; font-style:italic; font-size:1.5rem;">Sports ferderation</h3>
-         <h4  style="font-size: 1.125rem; font-style:italic;  ">ID CARD</h4>
-        </div>
-       </div>
-       <div  style="position:relative">
-        <div  style="align-self: center">
-          <div class="mb-3" style="margin-bottom: 0.75rem">
-            <h2 style="text-transform: uppercase; font-weight:bold;">{{ Auth::user()->name }}</h2>
-            <h4 style="text-transform: uppercase; font-weight:100;">Player name</h4>
-          </div>
-          <div style="margin-bottom: 0.75rem;">
-            <h2 style="text-transform: uppercase; font-weight:600;">{{ Auth::user()->player->type_of_sport }}</h2>
-            <h4 class="uppercase font-thin" style="font-weight:100; text-transform:uppercase;">Type of sport</h4>
-          </div>
-          <div >
-            <h2 style="text-transform: uppercase; font-weight:600;">{{ Auth::user()->player->player_position }}</h2>
-            <h4 class="uppercase font-thin" style="font-weight:100; text-transform:uppercase;">Player Position</h4>
-          </div>
-        </div>
-        <div class="card-image" style=" position:absolute; top:-100px; left:400px; ">
-
-          <img src="{{ asset('storage/'.Auth::user()->player->profile_picture) }}"  alt="" style="height:300px; width:200px;">
-          <h6 style="font-size: 1.125rem; text-align:center; font-weight:bold; background-color:black;">{{ Auth::user()->created_at->format('Ymdis') }}</h6>
-        </div>
-      </div>
+<div class="card-content"  style="background-image:url(/images/bg-id.jpg)">
+  <div class="logo-container">
+    <div class="logo-img">
+      <img src="{{ asset('images/sports.png') }}" alt="">
+    </div>
+    <div class="text-container">
+      <h3 class="title">Sports Federation</h3>
+      <h4 class="subtitle">ID Card</h4>
+    </div>
+  </div>
+  <div class="info-container">
+    <div class="info">
+      <h2 class="info-title">{{ Auth::user()->name }}</h2>
+      <h4 class="info-subtitle">Player Name</h4>
+    </div>
+    <div class="info">
+      <h2 class="info-title">{{ Auth::user()->player->type_of_sport }}</h2>
+      <h4 class="info-subtitle">Type of Sport</h4>
+    </div>
+    <div class="info">
+      <h2 class="info-title">{{ Auth::user()->player->player_position }}</h2>
+      <h4 class="info-subtitle">Player Position</h4>
+    </div>
+  </div>
+  <div class="card-image">
+    <img src="{{ asset('storage/'.Auth::user()->player->profile_picture) }}" alt="" class="player-image">
+    <div class="timestamp">{{ Auth::user()->created_at->format('Ymdis') }}</div>
+  </div>
 </div>
 
 <div style="margin-top:30px;">
@@ -50,42 +131,34 @@
 
 
 @if (auth()->user()->registration_type === "Referee" && auth()->user()->referee)
-<div class="card-content" style="position: relative margin-top:20px; min-height:400px;    max-width: 700px;
-        background-image:url(/images/id-bg.jpg);
-        padding: 10px 30px;
-        color:white;
-        background-size:cover;
-        border-radius: 6px;">
-    <div style=" margin-bottom:40px; padding-top:60px;">
-        <div  style="color: white">
-            <img src="{{ asset('images/layer.png') }}" class=" h-12 w-12 " style="width: 48px; height:48px;" alt="">
-        </div>
-        <div style="position:absolute; left:100px; top:-5px;">
-         <h3  style=" text-transform:uppercase; font-weight:800; font-style:italic; font-size:1.5rem;">Sports ferderation</h3>
-         <h4  style="font-size: 1.125rem; font-style:italic;">ID CARD</h4>
-        </div>
-       </div>
-       <div  style="position:relative">
-        <div  style="align-self: center">
-          <div class="mb-3" style="margin-bottom: 0.75rem">
-            <h2 style="text-transform: uppercase; font-weight:bold;">{{ Auth::user()->name }}</h2>
-            <h4 style="text-transform: uppercase; font-weight:100;">Referee name</h4>
-          </div>
-          <div style="margin-bottom: 0.75rem;">
-            <h2 style="text-transform: uppercase; font-weight:600;">{{ Auth::user()->referee->type_of_sport }}</h2>
-            <h4 class="uppercase font-thin" style="font-weight:100; text-transform:uppercase;">Type of sport</h4>
-          </div>
-          <div >
-            <h2 style="text-transform: uppercase; font-weight:600;">{{ Auth::user()->referee->member }}</h2>
-            <h4 class="uppercase font-thin" style="font-weight:100; text-transform:uppercase;">Member</h4>
-          </div>
-        </div>
-        <div class="card-image" style=" position:absolute; top:-100px; left:400px; ">
-
-          <img src="{{ asset('storage/'.Auth::user()->referee->profile_picture) }}"  alt="" style="height:300px; width:200px;">
-          <h6 style="font-size: 1.125rem; text-align:center; font-weight:bold; background-color:black;">{{ Auth::user()->created_at->format('Ymdis') }}</h6>
-        </div>
-      </div>
+<div class="card-content"  style="background-image:url(/images/bg-id.jpg)">
+  <div class="logo-container">
+    <div class="logo-img">
+      <img src="{{ asset('images/sports.png') }}" alt="">
+    </div>
+    <div class="text-container">
+      <h3 class="title">Sports Federation</h3>
+      <h4 class="subtitle">ID Card</h4>
+    </div>
+  </div>
+  <div class="info-container">
+    <div class="info">
+      <h2 class="info-title">{{ Auth::user()->name }}</h2>
+      <h4 class="info-subtitle">Referee Name</h4>
+    </div>
+    <div class="info">
+      <h2 class="info-title">{{ Auth::user()->referee->type_of_sport }}</h2>
+      <h4 class="info-subtitle">Type of Sport</h4>
+    </div>
+    <div class="info">
+      <h2 class="info-title">{{ Auth::user()->referee->member }}</h2>
+      <h4 class="info-subtitle">Member</h4>
+    </div>
+  </div>
+  <div class="card-image">
+    <img src="{{ asset('storage/'.Auth::user()->referee->profile_picture) }}" alt="" class="player-image">
+    <div class="timestamp">{{ Auth::user()->created_at->format('Ymdis') }}</div>
+  </div>
 </div>
 
 <div style="margin-top:30px;">
@@ -96,42 +169,34 @@
 
 
 @if (auth()->user()->registration_type === "Team official" && auth()->user()->teamOfficial)
-<div class="card-content" style="position: relative margin-top:20px; min-height:400px;    max-width: 700px;
-        background-image:url(/images/id-bg.jpg);
-        padding: 10px 30px;
-        color:white;
-        background-size:cover;
-        border-radius: 6px;">
-    <div style=" margin-bottom:40px; padding-top:60px;">
-        <div  style="color: white">
-            <img src="{{ asset('images/layer.png') }}" class=" h-12 w-12 " style="width: 48px; height:48px;" alt="">
-        </div>
-        <div style="position:absolute; left:100px; top:-5px;">
-         <h3  style=" text-transform:uppercase; font-weight:800; font-style:italic; font-size:1.5rem;">Sports ferderation</h3>
-         <h4  style="font-size: 1.125rem; font-style:italic;">ID CARD</h4>
-        </div>
-       </div>
-       <div  style="position:relative">
-        <div  style="align-self: center">
-          <div class="mb-3" style="margin-bottom: 0.75rem">
-            <h2 style="text-transform: uppercase; font-weight:bold;">{{ Auth::user()->name }}</h2>
-            <h4 style="text-transform: uppercase; font-weight:100;">Team official name</h4>
-          </div>
-          <div style="margin-bottom: 0.75rem;">
-            <h2 style="text-transform: uppercase; font-weight:600;">{{ Auth::user()->teamOfficial->type_of_sport }}</h2>
-            <h4 class="uppercase font-thin" style="font-weight:100; text-transform:uppercase;">Type of sport</h4>
-          </div>
-          <div >
-            <h2 style="text-transform: uppercase; font-weight:600;">{{ Auth::user()->teamOfficial->member }}</h2>
-            <h4 class="uppercase font-thin" style="font-weight:100; text-transform:uppercase;">Member</h4>
-          </div>
-        </div>
-        <div class="card-image" style=" position:absolute; top:-100px; left:400px; ">
-
-          <img src="{{ asset('storage/'.Auth::user()->teamOfficial->profile_picture) }}"  alt="" style="height:300px; width:200px;">
-          <h6 style="font-size: 1.125rem; text-align:center; font-weight:bold; background-color:black;">{{ Auth::user()->created_at->format('Ymdis') }}</h6>
-        </div>
-      </div>
+<div class="card-content"  style="background-image:url(/images/bg-id.jpg)">
+  <div class="logo-container">
+    <div class="logo-img">
+      <img src="{{ asset('images/sports.png') }}" alt="">
+    </div>
+    <div class="text-container">
+      <h3 class="title">Sports Federation</h3>
+      <h4 class="subtitle">ID Card</h4>
+    </div>
+  </div>
+  <div class="info-container">
+    <div class="info">
+      <h2 class="info-title">{{ Auth::user()->name }}</h2>
+      <h4 class="info-subtitle">Team official Name</h4>
+    </div>
+    <div class="info">
+      <h2 class="info-title">{{ Auth::user()->teamOfficial->type_of_sport }}</h2>
+      <h4 class="info-subtitle">Type of Sport</h4>
+    </div>
+    <div class="info">
+      <h2 class="info-title">{{ Auth::user()->teamOfficial->member }}</h2>
+      <h4 class="info-subtitle">Member</h4>
+    </div>
+  </div>
+  <div class="card-image">
+    <img src="{{ asset('storage/'.Auth::user()->teamOfficial->profile_picture) }}" alt="" class="player-image">
+    <div class="timestamp">{{ Auth::user()->created_at->format('Ymdis') }}</div>
+  </div>
 </div>
 
 <div style="margin-top:30px;">
@@ -142,42 +207,34 @@
 
 
 @if (auth()->user()->registration_type === "Tournament official" && auth()->user()->tournamentOfficial)
-<div class="card-content" style="position: relative margin-top:20px; min-height:400px;    max-width: 700px;
-        background-image:url(/images/id-bg.jpg);
-        padding: 10px 30px;
-        color:white;
-        background-size:cover;
-        border-radius: 6px;">
-    <div style=" margin-bottom:40px; padding-top:60px;">
-        <div  style="color: white">
-            <img src="{{ asset('images/layer.png') }}" class=" h-12 w-12 " style="width: 48px; height:48px;" alt="">
-        </div>
-        <div style="position:absolute; left:100px; top:-5px;">
-         <h3  style=" text-transform:uppercase; font-weight:800; font-style:italic; font-size:1.5rem;">Sports ferderation</h3>
-         <h4  style="font-size: 1.125rem; font-style:italic;">ID CARD</h4>
-        </div>
-       </div>
-       <div  style="position:relative">
-        <div  style="align-self: center">
-          <div class="mb-3" style="margin-bottom: 0.75rem">
-            <h2 style="text-transform: uppercase; font-weight:bold;">{{ Auth::user()->name }}</h2>
-            <h4 style="text-transform: uppercase; font-weight:100;">Tournament official name</h4>
-          </div>
-          <div style="margin-bottom: 0.75rem;">
-            <h2 style="text-transform: uppercase; font-weight:600;">{{ Auth::user()->tournamentOfficial->type_of_sport }}</h2>
-            <h4 class="uppercase font-thin" style="font-weight:100; text-transform:uppercase;">Type of sport</h4>
-          </div>
-          <div >
-            <h2 style="text-transform: uppercase; font-weight:600;">{{ Auth::user()->tournamentOfficial->member }}</h2>
-            <h4 class="uppercase font-thin" style="font-weight:100; text-transform:uppercase;">Member</h4>
-          </div>
-        </div>
-        <div class="card-image" style=" position:absolute; top:-100px; left:400px; ">
-
-          <img src="{{ asset('storage/'.Auth::user()->tournamentOfficial->profile_picture) }}"  alt="" style="height:300px; width:200px;">
-          <h6 style="font-size: 1.125rem; text-align:center; font-weight:bold; background-color:black;">{{ Auth::user()->created_at->format('Ymdis') }}</h6>
-        </div>
-      </div>
+<div class="card-content"  style="background-image:url(/images/bg-id.jpg)">
+  <div class="logo-container">
+    <div class="logo-img">
+      <img src="{{ asset('images/sports.png') }}" alt="">
+    </div>
+    <div class="text-container">
+      <h3 class="title">Sports Federation</h3>
+      <h4 class="subtitle">ID Card</h4>
+    </div>
+  </div>
+  <div class="info-container">
+    <div class="info">
+      <h2 class="info-title">{{ Auth::user()->name }}</h2>
+      <h4 class="info-subtitle">Tournament official Name</h4>
+    </div>
+    <div class="info">
+      <h2 class="info-title">{{ Auth::user()->tournamentOfficial->type_of_sport }}</h2>
+      <h4 class="info-subtitle">Type of Sport</h4>
+    </div>
+    <div class="info">
+      <h2 class="info-title">{{ Auth::user()->tournamentOfficial->member }}</h2>
+      <h4 class="info-subtitle">Member</h4>
+    </div>
+  </div>
+  <div class="card-image">
+    <img src="{{ asset('storage/'.Auth::user()->tournamentOfficial->profile_picture) }}" alt="" class="player-image">
+    <div class="timestamp">{{ Auth::user()->created_at->format('Ymdis') }}</div>
+  </div>
 </div>
 
 <div style="margin-top:30px;">

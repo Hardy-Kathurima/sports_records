@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::view('/', 'welcome')->name('home');
+Route::view('/cert', 'my-cert');
 
 Route::get('admin/generate-certificate', function () {
     $data = [];

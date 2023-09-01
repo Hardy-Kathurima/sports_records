@@ -1,38 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Tournament official ID</title>
+  {{-- <link rel="stylesheet" type="text/css" href="{{ public_path('pdf-styles.css') }}"> --}}
 
+</head>
+<body>
 
-<div class="card-content" style="position: relative margin-top:20px;   max-width: 700px;
-background-image: url('{{ public_path('images/id-bg.jpg') }}');
-padding: 40px;
-color:white;
-border-radius: 6px; ">
-    <div style=" margin-bottom:40px;">
-        <div  style="color: white">
-            <img src="{{ public_path('images/layer.png') }}" class=" h-12 w-12 " style="width: 48px; height:48px;" alt="">
-        </div>
-        <div style="position:absolute; left:100px; top:-5px;">
-         <h3  style=" text-transform:uppercase; font-weight:800; font-style:italic; font-size:1.5rem;">Sports ferderation</h3>
-         <h4  style="font-size: 1.125rem; font-style:italic;  ">ID CARD</h4>
-        </div>
-       </div>
-       <div  style="position:relative">
-        <div  style="align-self: center">
-          <div class="mb-3" style="margin-bottom: 0.75rem">
-            <h2 style="text-transform: uppercase; font-weight:bold;">{{ Auth::user()->name }}</h2>
-            <h4 style="text-transform: uppercase; font-weight:100;">Tournament official name</h4>
-          </div>
-          <div style="margin-bottom: 0.75rem;">
-            <h2 style="text-transform: uppercase; font-weight:600;">{{ Auth::user()->tournamentOfficial->type_of_sport }}</h2>
-            <h4 class="uppercase font-thin" style="font-weight:100; text-transform:uppercase;">Type of sport</h4>
-          </div>
-          <div >
-            <h2 style="text-transform: uppercase; font-weight:600;">{{ Auth::user()->tournamentOfficial->member }}</h2>
-            <h4 class="uppercase font-thin" style="font-weight:100; text-transform:uppercase;">Member</h4>
-          </div>
-        </div>
-        <div class="card-image" style=" position:absolute; top:-20px; left:400px; ">
-          <img src="{{ public_path('storage/'.Auth::user()->tournamentOfficial->profile_picture) }}"  alt="" style="height:300px; width:200px;">
-          <h6 style="font-size: 1.125rem; text-align:center; font-weight:bold; background-color:black;">{{ Auth::user()->created_at->format('Ymdis') }}</h6>
-        </div>
+  <div class="card-content"  style="background-image:url('{{ public_path('images/bg-id.jpg') }}'); display:flex; ">
+    <div class="logo-container" style="display: flex">
+      <div class="logo-img">
+        <img src="{{ public_path('images/sports.png') }}" alt="">
       </div>
-</div>
+      <div class="text-container">
+        <h3 class="title">Sports Federation</h3>
+        <h4 class="subtitle">ID Card</h4>
+      </div>
+    </div>
+    <div class="info-container">
+      <div class="info">
+        <h2 class="info-title">{{ Auth::user()->name }}</h2>
+        <h4 class="info-subtitle">Tournament official Name</h4>
+      </div>
+      <div class="info">
+        <h2 class="info-title">{{ Auth::user()->tournamentOfficial->type_of_sport }}</h2>
+        <h4 class="info-subtitle">Type of Sport</h4>
+      </div>
+      <div class="info">
+        <h2 class="info-title">{{ Auth::user()->tournamentOfficial->member }}</h2>
+        <h4 class="info-subtitle">Member</h4>
+      </div>
+    </div>
+    <div class="card-image">
+      <img src="{{ public_path('storage/'.Auth::user()->tournamentOfficial->profile_picture) }}" alt="" class="player-image">
+      <div class="timestamp">{{ Auth::user()->created_at->format('Ymdis') }}</div>
+    </div>
+  </div>
 
+</body>
+</html>
