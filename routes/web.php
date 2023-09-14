@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Team;
 use App\Http\Livewire\Users\Register;
 use Illuminate\Support\Facades\Route;
 
@@ -54,5 +55,27 @@ Route::get('admin/generate-tournament-official-id', function () {
     return $pdf->stream('tournament-official-id.pdf');
 
 })->middleware('auth')->name('generate-tournament-official-id');
+
+Route::get('admin/generate-team-certificate/{id}', function ($id) {
+
+    $team = Team::find($id); // Replace YourModel with your actual Eloquent model
+
+    if (!$team) {
+        abort(404); // Handle the case when the team with the given ID is not found
+    }
+
+    // Prepare the data for the PDF
+    $data = [
+        'team' => $team,
+    ];
+
+    
+
+
+    // $data = [];
+    $pdf = Pdf::loadView('pdfs.team-cert', $data)->setPaper('letter', 'portrait');
+    return $pdf->stream('team-cert.pdf');
+
+})->middleware('auth')->name('generate-team-cert');
 
 Route::get('user-registration',Register::class)->name('registerUser');

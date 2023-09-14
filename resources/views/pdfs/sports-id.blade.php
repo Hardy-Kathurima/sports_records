@@ -1,38 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Team official Identification</title>
 
+</head>
+<body>
+  <div>
+    <div class="card-content" style="background-image: url('{{ public_path('images/bg-id.jpg') }}'); position:relative; padding:50px; color:white; border-radius:10px;"   >
+      <div class="logo-container">
+        <div class="logo-img" style=" width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        padding-right: 10px;
+        background-color: transparent;">
+          <img src="{{ public_path('images/sports.png') }}" style="width: 100%; height:auto;" alt="">
+        </div>
+        <div class="text-container" style="position: absolute; top:200px; padding-right:20px;">
+          <h3 class="title" style=" text-transform: uppercase;
+          font-weight: 800;
+          font-style: italic;
+          font-size: 1rem;
+          margin-top: -5px;">Sports Federation</h3>
+          <h4 class="subtitle">ID Card</h4>
+        </div>
+      </div>
+      <div class="info-container" style="position: relative; top:-20px; left:350px;">
+        <div class="info">
+          <h2 class="info-title">{{ auth()->user()->name }}</h2>
+          <h4 class="info-subtitle">Player Name</h4>
+        </div>
+        <div class="info">
+          <h2 class="info-title">{{ auth()->user()->player->type_of_sport }}</h2>
+          <h4 class="info-subtitle">Type of Sport</h4>
+        </div>
 
-    <div class="card-content" style="position: relative margin-top:20px;   max-width: 700px;
-    background-image: url('{{ public_path('images/id-bg.jpg') }}');
-    padding: 40px;
-    color:white;
-    border-radius: 6px; ">
-        <div style=" margin-bottom:40px;">
-            <div  style="color: white">
-                <img src="{{ public_path('images/layer.png') }}" class=" h-12 w-12 " style="width: 48px; height:48px;" alt="">
-            </div>
-            <div style="position:absolute; left:100px; top:-5px;">
-             <h3  style=" text-transform:uppercase; font-weight:800; font-style:italic; font-size:1.5rem;">Sports ferderation</h3>
-             <h4  style="font-size: 1.125rem; font-style:italic;  ">ID CARD</h4>
-            </div>
-           </div>
-           <div  style="position:relative">
-            <div  style="align-self: center">
-              <div class="mb-3" style="margin-bottom: 0.75rem">
-                <h2 style="text-transform: uppercase; font-weight:bold;">{{ Auth::user()->name }}</h2>
-                <h4 style="text-transform: uppercase; font-weight:100;">Player name</h4>
-              </div>
-              <div style="margin-bottom: 0.75rem;">
-                <h2 style="text-transform: uppercase; font-weight:600;">{{ Auth::user()->player->type_of_sport }}</h2>
-                <h4 class="uppercase font-thin" style="font-weight:100; text-transform:uppercase;">Type of sport</h4>
-              </div>
-              <div >
-                <h2 style="text-transform: uppercase; font-weight:600;">{{ Auth::user()->player->player_position }}</h2>
-                <h4 class="uppercase font-thin" style="font-weight:100; text-transform:uppercase;">Player Position</h4>
-              </div>
-            </div>
-            <div class="card-image" style=" position:absolute; top:-20px; left:400px; ">
-              <img src="{{ public_path('storage/'.Auth::user()->player->profile_picture) }}"  alt="" style="height:300px; width:200px;">
-              <h6 style="font-size: 1.125rem; text-align:center; font-weight:bold; background-color:black;">{{ Auth::user()->created_at->format('Ymdis') }}</h6>
-            </div>
-          </div>
+      </div>
+      <div class="card-image"  style="position: absolute; top:100px; right:100px;">
+        <img src="{{ public_path('storage/'.auth()->user()->player->profile_picture) }}" alt="" class="player-image" style=" height: auto;
+        max-width: 100%;
+        border-radius: 10px;
+        margin-top: -10px;">
+        <div class="timestamp" style=" font-size: 0.9rem;
+        text-align: center;
+        font-weight: bold;
+        background-color: black;
+        padding: 3px 0;
+        border-radius: 6px;
+        margin-top: 5px;">{{ auth()->user()->created_at->format('Ymdis') }}</div>
+      </div>
     </div>
+  </div>
 
+</body>
+</html>
