@@ -7,6 +7,7 @@ use Filament\Tables;
 use Filament\Resources\Form;
 use Filament\Resources\Table;
 use Filament\Resources\Resource;
+use Illuminate\Support\Facades\Auth;
 use App\Models\TournamentApplication;
 use Filament\Forms\Components\Textarea;
 use Filament\Tables\Columns\TextColumn;
@@ -34,6 +35,8 @@ class TournamentApplicationResource extends Resource
         return $table
             ->columns([
                 TextColumn::make('user.name')->label('Applicant name'),
+                TextColumn::make('tournament_name')->label('Tournament name'),
+                TextColumn::make('status')->label('Tournament status'),
                 TextColumn::make('comment'),
 
             ])
@@ -63,5 +66,20 @@ class TournamentApplicationResource extends Resource
             'create' => Pages\CreateTournamentApplication::route('/create'),
             'edit' => Pages\EditTournamentApplication::route('/{record}/edit'),
         ];
+    }
+
+
+    public static function getEloquentQuery(): Builder
+    {
+        $query = parent::getEloquentQuery();
+
+        // If the user is logged in and has a normal user role, filter the query to only include records created by that user.
+        if (Auth::check() && Auth::user()->hasRole(['Tournament official'])) {
+            $tournament_creator = TournamentApplication::where('user_id', Auth::user()->id)->pluck('user_id')->first();
+
+            $query->where('tournament_creator', $tournament_creator);
+        }
+
+        return $query;
     }
 }

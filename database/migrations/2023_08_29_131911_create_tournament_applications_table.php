@@ -13,12 +13,14 @@ return new class extends Migration
     {
         Schema::create('tournament_applications', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('user_id')->unique();
+            $table->integer('user_id');
+            $table->string('tournament_name');
+            $table->integer('tournament_creator');
             $table->text('comment');
             $table->string('status')->default('Pending')->nullable();
             $table->timestamps();
 
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            
         });
     }
 

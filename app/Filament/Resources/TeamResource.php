@@ -8,6 +8,7 @@ use App\Models\Team;
 use App\Models\User;
 use Filament\Tables;
 use App\Models\Player;
+use App\Models\TeamAdmin;
 use Filament\Resources\Form;
 use Filament\Resources\Table;
 use Filament\Resources\Resource;
@@ -122,6 +123,7 @@ class TeamResource extends Resource
                                     ->placeholder('Enter player name'),
 
                                     TextInput::make('email')
+                                    ->unique(table: User::class)
                                     ->required()
                                     ->autofocus()
                                     ->email()
@@ -225,6 +227,7 @@ class TeamResource extends Resource
                                     ->required()
                                     ->autofocus()
                                     ->email()
+                                    ->unique(User::class)
                                     ->placeholder('Enter admin email'),
 
                                     TextInput::make('phone')

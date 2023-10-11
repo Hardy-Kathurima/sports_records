@@ -55,6 +55,7 @@ class CreateTournament extends CreateRecord
         ->body('You have been invited for a tournament')
         ->actions([
             Action::make('View tournament')
+            ->close()
 
             ->url(TournamentResource::getUrl('view',$tournament_id)),
         ])
