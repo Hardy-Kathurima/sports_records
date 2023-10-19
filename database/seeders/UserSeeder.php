@@ -16,7 +16,7 @@ class UserSeeder extends Seeder
      */
     public function run(): void
     {
-        $userRoleMappings = [
+        $userRoleMappings1 = [
             'Admin' => 'Admin',
             'Player' => 'Player',
             'Referee' => 'Referee',
@@ -24,8 +24,23 @@ class UserSeeder extends Seeder
             'Tournament official' => 'Tournament official',
             'Team admin' => 'Team admin'
         ];
+        $userRoleMappings2 = [
+            'Team official2' => 'Team official',
+            'Tournament official2' => 'Tournament official',
+        ];
 
-        foreach ($userRoleMappings as $name => $roleName) {
+        foreach ($userRoleMappings2 as $name => $roleName) {
+            $user = User::factory()->create([
+                'name' => $name,
+                'registration_type' => $roleName,
+                'email' => strtolower(str_replace(' ', '', $name)) . '@gmail.com',
+            ]);
+
+            $role = Role::create(['name' => $roleName]);
+            $user->assignRole($role);
+        }
+
+        foreach ($userRoleMappings1 as $name => $roleName) {
             $user = User::factory()->create([
                 'name' => $name,
                 'registration_type' => $roleName,

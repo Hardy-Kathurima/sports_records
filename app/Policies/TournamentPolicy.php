@@ -43,8 +43,8 @@ class TournamentPolicy
      */
     public function update(User $user, Tournament $tournament): bool
     {
-        $tournamentOfficial = TournamentOfficial::where('user_id', auth()->user()->id)->first();
-        if($tournamentOfficial){
+        
+        if($tournament->tournament_creator === $user->id){
             return true;
         }
 

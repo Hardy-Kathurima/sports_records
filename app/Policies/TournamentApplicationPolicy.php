@@ -13,7 +13,7 @@ class TournamentApplicationPolicy
      */
     public function viewAny(User $user): bool
     {
-        return $user->hasRole(['Team official','Admin']);
+        return $user->hasRole(['Team official','Admin','Tournament official']);
     }
 
     /**
