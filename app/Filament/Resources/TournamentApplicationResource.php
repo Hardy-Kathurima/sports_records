@@ -69,17 +69,17 @@ class TournamentApplicationResource extends Resource
     }
 
 
-    public static function getEloquentQuery(): Builder
-    {
-        $query = parent::getEloquentQuery();
+    // public static function getEloquentQuery(): Builder
+    // {
+    //     $query = parent::getEloquentQuery();
 
-        // If the user is logged in and has a normal user role, filter the query to only include records created by that user.
-        if (Auth::check() && Auth::user()->hasRole(['Tournament official'])) {
-            $tournament_creator = TournamentApplication::where('user_id', Auth::user()->id)->pluck('user_id')->first();
+    //     // If the user is logged in and has a normal user role, filter the query to only include records created by that user.
+    //     if (Auth::check() && Auth::user()->hasRole(['Tournament official'])) {
+    //         $tournament_creator = TournamentApplication::where('user_id', Auth::user()->id)->pluck('user_id')->first();
 
-            $query->where('tournament_creator', $tournament_creator);
-        }
+    //         $query->where('tournament_creator', $tournament_creator);
+    //     }
 
-        return $query;
-    }
+    //     return $query;
+    // }
 }

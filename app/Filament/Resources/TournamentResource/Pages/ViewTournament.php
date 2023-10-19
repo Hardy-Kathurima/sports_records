@@ -54,7 +54,22 @@ class ViewTournament extends ViewRecord
 
 
 
-        })->form([
+        })
+        ->hidden(function(){
+
+            $tournament_status = TournamentApplication::where('tournament_name', $this->record->tournament_name)->pluck('status')->first();
+
+            if($tournament_status === "Declined" || $tournament_status === "Accepted" ){
+                return true;
+            }
+
+            else{
+                return false;
+            }
+
+        })
+
+        ->form([
             Textarea::make('comment')->label('Comment about the tournament')->required()
         ]),
 
@@ -67,21 +82,38 @@ class ViewTournament extends ViewRecord
             if(in_array(auth()->user()->registration_type, ["Team official","Referee"])){
                 $application = new TournamentApplication();
                 $application->user_id = auth()->user()->id;
+                $application->tournament_name = $this->record->tournament_name;
+                $application->tournament_creator = $this->record->tournament_creator;
                 $application->comment = $data['comment'];
                 $application->status = "Declined";
                 $application->save();
             }
 
             Notification::make('Tournament application')
-            ->body('You have successfully applied for the tournament')
-            ->success()
-            ->icon('heroicon-o-phone')
-            ->title('Application successfull')
+            ->body('You have successfully declined  tournament invitation')
+            ->danger()
+            ->icon('heroicon-o-x-circle')
+            ->title('Decline successfull')
             ->send();
 
 
 
-        })->form([
+        })
+        ->hidden(function(){
+
+            $tournament_status = TournamentApplication::where('tournament_name', $this->record->tournament_name)->pluck('status')->first();
+
+            if($tournament_status === "Declined" || $tournament_status === "Accepted" ){
+                return true;
+            }
+
+            else{
+                return false;
+            }
+
+        })
+
+        ->form([
             Textarea::make('comment')->label('Reason for declining the invitation')->required()
         ])
 
