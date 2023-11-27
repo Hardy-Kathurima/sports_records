@@ -23,6 +23,7 @@ class TournamentPolicy
     public function view(User $user, Tournament $tournament): bool
     {
         return $user->hasRole(['Tournament official','Admin','Referee','Player','Team official']);
+
     }
 
     /**
@@ -43,7 +44,7 @@ class TournamentPolicy
      */
     public function update(User $user, Tournament $tournament): bool
     {
-        
+
         if($tournament->tournament_creator === $user->id){
             return true;
         }
