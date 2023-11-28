@@ -22,6 +22,17 @@ class TournamentApplicationResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-collection';
 
+    public static function shouldRegisterNavigation(): bool
+    {
+
+        if(auth()->user()->hasRole('Team official')){
+            return false;
+        }
+
+
+        return false;
+    }
+
     public static function form(Form $form): Form
     {
         return $form

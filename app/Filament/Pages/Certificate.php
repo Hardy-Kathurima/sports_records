@@ -18,6 +18,6 @@ class Certificate extends Page
             return false;
         }
 
-        return true;
+        return false;
     }
 }

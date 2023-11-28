@@ -19,6 +19,17 @@ class PoolResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-collection';
 
+    public static function shouldRegisterNavigation(): bool
+    {
+
+        if(auth()->user()->hasRole('Team official')){
+            return false;
+        }
+
+
+        return false;
+    }
+
     public static function form(Form $form): Form
     {
         return $form
@@ -60,14 +71,14 @@ class PoolResource extends Resource
                 Tables\Actions\DeleteBulkAction::make(),
             ]);
     }
-    
+
     public static function getRelations(): array
     {
         return [
             //
         ];
     }
-    
+
     public static function getPages(): array
     {
         return [
@@ -75,5 +86,5 @@ class PoolResource extends Resource
             'create' => Pages\CreatePool::route('/create'),
             'edit' => Pages\EditPool::route('/{record}/edit'),
         ];
-    }    
+    }
 }

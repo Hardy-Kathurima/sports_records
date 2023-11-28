@@ -33,7 +33,7 @@ class MyProfile extends Page
 
     protected static string $view = 'filament.pages.my-profile';
 
-    protected static ?string $navigationGroup = 'Manage my profile';
+    // protected static ?string $navigationGroup = 'Manage my profile';
 
     public $client;
 

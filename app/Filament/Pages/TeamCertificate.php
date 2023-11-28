@@ -24,7 +24,7 @@ class TeamCertificate extends Page
     {
 
         if(auth()->user()->hasRole('Team official')){
-            return true;
+            return false;
         }
 
 
