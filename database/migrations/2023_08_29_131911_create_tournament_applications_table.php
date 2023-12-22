@@ -15,12 +15,13 @@ return new class extends Migration
             $table->id();
             $table->integer('user_id');
             $table->string('tournament_name');
+            $table->integer('team_id');
             $table->integer('tournament_creator');
             $table->text('comment');
             $table->string('status')->default('Pending')->nullable();
             $table->timestamps();
 
-            
+
         });
     }
 

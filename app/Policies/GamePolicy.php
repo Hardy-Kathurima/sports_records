@@ -13,7 +13,7 @@ class GamePolicy
      */
     public function viewAny(User $user): bool
     {
-        return $user->hasRole(['Admin','Team official','Tournament official','Team admin','Player']);
+        return $user->hasRole(['Admin']);
     }
 
     /**

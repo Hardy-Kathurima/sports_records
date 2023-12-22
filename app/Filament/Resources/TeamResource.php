@@ -253,18 +253,18 @@ class TeamResource extends Resource
                 Forms\Components\TextInput::make('team_name')
                     ->required()
                     ->maxLength(255),
-                    Repeater::make('team_players')
-                    ->label('team_players')
-                    ->schema([
-                        Select::make('team_player')
+
+                        Select::make('team_players')
                         ->reactive()
                         ->required()
+                        ->multiple()
                         ->label('team players')
                         ->options(User::where('registration_type', '=', 'Player')
                             ->where('creator_id', '=', auth()->user()->id)
                             ->pluck('name', 'id'))
-                        ->reactive(),
-                    ]) ->defaultItems(2)->maxItems(11),
+                        ->reactive()
+                        ->preload(),
+
                     FileUpload::make('team_logo')
                     ->image()->maxSize(200)->preserveFilenames()->imageCropAspectRatio('1:1')
                     ->imageResizeTargetWidth('100')
@@ -282,18 +282,17 @@ class TeamResource extends Resource
                         return true;
                     })->preload(),
 
-                    Repeater::make('team_officials')
-                    ->label('team_admins')
-                    ->schema([
-                        Select::make('team_admins')
-                        ->reactive()
+                        Select::make('team_officials')
                         ->required()
+                        ->multiple()
+                        ->minItems(2)
+                        ->maxItems(2)
                         ->label('team admins')
                         ->options(User::where('registration_type', '=', 'Team admin')
                             ->where('creator_id', '=', auth()->user()->id)
-                            ->pluck('name', 'id'))
-                        ->reactive(),
-                    ]) ->defaultItems(2)->maxItems(2),
+                            ->pluck('name', 'id'))->preload()
+
+
 
 
 

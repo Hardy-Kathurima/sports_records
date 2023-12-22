@@ -14,8 +14,9 @@ return new class extends Migration
         Schema::create('pools', function (Blueprint $table) {
             $table->id();
             $table->string('tournament_name');
-            $table->json('confirmed_teams');
-            $table->string('required_total');
+            $table->string('confirmed_teams');
+            $table->string('number_of_groups');
+            $table->json('groups');
             $table->string('pool_status')->default('pending');
             $table->timestamps();
         });

@@ -22,8 +22,8 @@ class PoolResource extends Resource
     public static function shouldRegisterNavigation(): bool
     {
 
-        if(auth()->user()->hasRole('Team official')){
-            return false;
+        if(auth()->user()->hasRole('Tournament official')){
+            return true;
         }
 
 
@@ -37,11 +37,8 @@ class PoolResource extends Resource
                 Forms\Components\TextInput::make('tournament_name')
                     ->required()
                     ->maxLength(255),
-                Forms\Components\Textarea::make('confirmed_teams')
+                Forms\Components\TextInput::make('confirmed_teams')
                     ->required(),
-                Forms\Components\TextInput::make('required_total')
-                    ->required()
-                    ->maxLength(255),
                 Forms\Components\TextInput::make('pool_status')
                     ->required()
                     ->maxLength(255),
@@ -54,7 +51,6 @@ class PoolResource extends Resource
             ->columns([
                 Tables\Columns\TextColumn::make('tournament_name'),
                 Tables\Columns\TextColumn::make('confirmed_teams'),
-                Tables\Columns\TextColumn::make('required_total'),
                 Tables\Columns\TextColumn::make('pool_status'),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime(),
@@ -65,6 +61,7 @@ class PoolResource extends Resource
                 //
             ])
             ->actions([
+                Tables\Actions\ViewAction::make(),
                 Tables\Actions\EditAction::make(),
             ])
             ->bulkActions([
@@ -84,6 +81,7 @@ class PoolResource extends Resource
         return [
             'index' => Pages\ListPools::route('/'),
             'create' => Pages\CreatePool::route('/create'),
+            'view' => Pages\ViewPool::route('/{record}'),
             'edit' => Pages\EditPool::route('/{record}/edit'),
         ];
     }

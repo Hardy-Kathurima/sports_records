@@ -19,6 +19,7 @@ class CreateTeam extends CreateRecord
 
     protected function mutateFormDataBeforeCreate(array $data): array
     {
+        
         $data['team_official_id'] = auth()->user()->id;
 
         $this->FormData = $data;

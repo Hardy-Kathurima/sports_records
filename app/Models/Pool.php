@@ -12,6 +12,6 @@ class Pool extends Model
     protected $guarded = [];
 
     protected $casts = [
-        'confirmed_teams' => 'array',
+        'groups' => 'array',
     ];
 }

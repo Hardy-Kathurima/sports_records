@@ -19,11 +19,22 @@ class TeamAdminResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-user';
 
+
+
+    public static function shouldRegisterNavigation(): bool
+    {
+        if(auth()->user()->hasRole('Admin')){
+            return false;
+        }
+
+        return false;
+    }
+
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
-                //
+
             ]);
     }
 

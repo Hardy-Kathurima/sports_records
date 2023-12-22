@@ -2,65 +2,64 @@
 
 namespace App\Policies;
 
-use App\Models\Player;
+use App\Models\Pool;
 use App\Models\User;
 use Illuminate\Auth\Access\Response;
 
-class PlayerPolicy
+class PoolPolicy
 {
     /**
      * Determine whether the user can view any models.
      */
-    public function viewAny(User $user): bool
+    public function viewAny(User $user)
     {
-        return $user->hasRole(['Admin']);
+        return true;
     }
 
     /**
      * Determine whether the user can view the model.
      */
-    public function view(User $user, Player $player): bool
+    public function view(User $user, Pool $pool)
     {
-        // return $user->id === $player->user_id;
         return true;
     }
 
     /**
      * Determine whether the user can create models.
      */
-    public function create(User $user): bool
+    public function create(User $user)
     {
-        return $user->hasRole(['Admin']);
+        return false;
     }
 
     /**
      * Determine whether the user can update the model.
      */
-    public function update(User $user, Player $player): bool
+    public function update(User $user, Pool $pool)
     {
-        return $user->hasRole(['Admin']);
+        //
     }
 
     /**
      * Determine whether the user can delete the model.
      */
-    public function delete(User $user, Player $player): bool
+    public function delete(User $user, Pool $pool)
     {
-        return $user->hasRole('Admin');
+        //
     }
 
     /**
      * Determine whether the user can restore the model.
      */
-    public function restore(User $user, Player $player): bool
+    public function restore(User $user, Pool $pool)
     {
-        return true;
+        //
     }
 
     /**
      * Determine whether the user can permanently delete the model.
      */
-    public function forceDelete(User $user, Player $player): bool
+    public function forceDelete(User $user, Pool $pool)
     {
         //
     }

@@ -14,7 +14,7 @@ class TeamPolicy
      */
     public function viewAny(User $user): bool
     {
-        return $user->hasRole(['Referee','Team official','Admin','Team admin']);
+        return $user->hasRole(['Referee','Team official','Admin','Team admin','Tournament official']);
     }
 
     /**
@@ -30,12 +30,14 @@ class TeamPolicy
      */
     public function create(User $user): bool
     {
-        $teamOfficial = TeamOfficial::where('user_id', auth()->user()->id)->first();
-        if($teamOfficial){
-            return true;
-        }
+        // $teamOfficial = TeamOfficial::where('user_id', auth()->user()->id)->first();
+        // if($teamOfficial){
+        //     return true;
+        // }
 
-        return false;
+        // return false;
+
+        return true;
     }
 
     /**
