@@ -2,20 +2,17 @@
 
 namespace App\Filament\Resources\TournamentResource\Pages;
 
-use Closure;
+use App\Filament\Resources\TournamentResource;
+use App\Models\Group;
 use App\Models\Pool;
 use App\Models\Team;
-use App\Models\Tournament;
-use Filament\Pages\Actions;
-use Illuminate\Http\Request;
-use Filament\Pages\Actions\Action;
 use App\Models\TournamentApplication;
-use Filament\Forms\Components\Select;
+use Closure;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Notifications\Notification;
+use Filament\Pages\Actions\Action;
 use Filament\Resources\Pages\ViewRecord;
-use App\Filament\Resources\TournamentResource;
 
 class ViewTournament extends ViewRecord
 {
@@ -42,14 +39,12 @@ class ViewTournament extends ViewRecord
         ->label('Create pools')
         ->color('warning')
         ->icon('heroicon-o-table')->action(function (array $data){
-
-            // dd($this->record);
-            // dd();
-
             $pooling = new Pool;
             $pooling->tournament_name =  $this->record->tournament_name;
             $pooling->confirmed_teams = $data['confirmed_teams'];
             $pooling->number_of_groups = $data['number_of_groups'];
+                $pooling->groups = '';
+                $pooling->save();
 
             $teams =TournamentApplication::where('tournament_name',$this->record->tournament_name)->where('status','Accepted')->pluck('team_id')->toArray();
 
@@ -57,41 +52,17 @@ class ViewTournament extends ViewRecord
 
             $alphabet = range('A', 'Z');
 
-            $pools = [];
-
             for ($i = 0; $i < $data['number_of_groups']; $i++) {
-                $pools[] = (object)['name' => $alphabet[$i], 'teams' => []];
+                $teamIds = array_slice($teams, $i * $data['number_of_groups'], $data['number_of_groups']);
+
+                foreach ($teamIds as $teamId) {
+                    $group = new Group();
+                    $group->group_name = $alphabet[$i];
+                    $group->team_id = $teamId;
+                    $group->pool_id = $pooling->id;
+                    $group->save();
+                }
             }
-
-            foreach ($teams as $index => $teamId) {
-                $poolIndex = $index % $data['number_of_groups'];
-                $pools[$poolIndex]->teams[] = $teamId;
-            }
-
-            // dd($pools);
-
-            $output = [];
-            foreach ($pools as $pool) {
-                // $output []= [
-                //     $pool->name => $pool->teams,
-                // ];
-                $output[] = (object) [
-                    'name' => $pool->name,
-                    'teams' => $pool->teams,
-                ];
-            }
-
-            $pooling->groups = $output;
-
-            $pooling->save();
-
-           dd($pooling->groups);
-
-            // dd($pooling);
-
-
-
-
         }) ->form([
             TextInput::make('confirmed_teams')
             ->label('Available Teams')
